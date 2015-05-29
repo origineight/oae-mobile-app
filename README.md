@@ -31,9 +31,7 @@ $ git checkout -b production --track origin/production
 # If don't have git-flow, install as
 $ wget -q -O - --no-check-certificate https://github.com/nvie/gitflow/raw/develop/contrib/gitflow-installer.sh | sudo bash
 
-```
 # Setup git flow
-```
 $ git flow init
 
 Which branch should be used for bringing forth production releases?
