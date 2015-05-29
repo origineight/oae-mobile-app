@@ -1,0 +1,12 @@
+{
+  "name": "oaeApp",
+  "app_id": "1c5be8c9",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
