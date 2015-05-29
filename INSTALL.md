@@ -31,14 +31,15 @@ $ sudo npm install -g phonegap ionic gulp
 ```
 
 
-# Setup project **(ONCE IN THE BEGINGING OF PROJECT)**
+## Setup project
+**ONLY ONCE IN THE BEGINGING OF PROJECT**
 ```
 $ ionic start creativityExerciseApp tabs
 $ ionic setup sass
 $ ionic serve
 ```
 
-# Tools
+## Tools
 - Ionic View
   - iOS: https://itunes.apple.com/us/app/ionic-view/id849930087?ls=1&mt=8
   - Android: https://play.google.com/store/apps/details?id=com.ionic.viewapp

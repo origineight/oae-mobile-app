@@ -7,13 +7,15 @@
 # Project
 
 Project name: oaeApp
+
 Based on creativityexercise.umn.edu
 
 GitHub: https://github.com/origineight/oae-mobile-app
 
 # Getting Started
 
-Requirements
+**Requirements**
+
 - Node.js, Ionic, Phonegap already setup, see INSTALL.md
 
 ## First Time
@@ -31,6 +33,7 @@ $ wget -q -O - --no-check-certificate https://github.com/nvie/gitflow/raw/develo
 
 ```
 # Setup git flow
+```
 $ git flow init
 
 Which branch should be used for bringing forth production releases?
