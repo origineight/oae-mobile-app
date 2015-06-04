@@ -21,3 +21,26 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+label.item.has-error {
+  border-bottom: 2px solid red;
+}
+.form-error {
+  color: red;
+  padding: 2px 0 2px 16px;
+}
+
+.new-email {
+  padding: 0 10%;
+
+  .icon {
+    color: $positive;
+  }
+}
+.copyright {
+  line-height: 1.2;
+  margin-bottom: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}

@@ -1,5 +1,30 @@
 angular.module('starter.services', [])
 
+.service('LoginService', function($q) {
+  return {
+    loginUser: function(email) {
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+
+      if (email == 'a@a.com') {
+        deferred.resolve('Welcome ' + email + '!');
+      }
+      else {
+        deferred.reject('Wrong credentials.');
+      }
+      promise.success = function(fn) {
+        promise.then(fn);
+        return promise;
+      }
+      promise.error = function(fn) {
+        promise.then(null, fn);
+        return promise;
+      }
+      return promise;
+    }
+  }
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

@@ -7674,3 +7674,23 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+label.item.has-error {
+  border-bottom: 2px solid red; }
+
+.form-error {
+  color: red;
+  padding: 2px 0 2px 16px; }
+
+.new-email {
+  padding: 0 10%; }
+  .new-email .icon {
+    color: #387ef5; }
+
+.copyright {
+  line-height: 1.2;
+  margin-bottom: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%; }
