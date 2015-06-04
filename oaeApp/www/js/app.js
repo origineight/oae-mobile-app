@@ -21,7 +21,10 @@ angular.module('starter', ['ionic', 'ngMessages', 'starter.controllers', 'starte
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  // Enable native scrolling for Android
+  var jsScrolling = (ionic.Platform.isAndroid() ) ? false : true;
+  $ionicConfigProvider.scrolling.jsScrolling(jsScrolling);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
