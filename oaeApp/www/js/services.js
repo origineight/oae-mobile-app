@@ -112,11 +112,11 @@ angular.module('oaeApp.services', [])
   return service;
 })
 
-.factory('Chats', function() {
+.factory('Results', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  var chats = [{
+  var results = [{
     id: 0,
     name: 'Ben Sparrow',
     lastText: 'You on your way?',
@@ -145,15 +145,15 @@ angular.module('oaeApp.services', [])
 
   return {
     all: function() {
-      return chats;
+      return results;
     },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
+    remove: function(result) {
+      results.splice(results.indexOf(result), 1);
     },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+    get: function(resultId) {
+      for (var i = 0; i < results.length; i++) {
+        if (results[i].id === parseInt(resultId)) {
+          return results[i];
         }
       }
       return null;

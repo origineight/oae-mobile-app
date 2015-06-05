@@ -42,20 +42,20 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('DashCtrl', function($scope) {})
+.controller('TestCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+.controller('ResultsCtrl', function($scope, Results) {
+  $scope.results = Results.all();
+  $scope.remove = function(result) {
+    Results.remove(result);
   }
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('ResultDetailCtrl', function($scope, $stateParams, Results) {
+  $scope.result = Results.get($stateParams.resultId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AboutCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
   };
