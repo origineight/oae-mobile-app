@@ -59,30 +59,48 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
   })
 
   .state('tab.results', {
-      url: '/results',
-      views: {
-        'tab-results': {
-          templateUrl: 'templates/tab-results.html',
-          controller: 'ResultsCtrl'
-        }
+    url: '/results',
+    views: {
+      'tab-results': {
+        templateUrl: 'templates/tab-results.html',
+        controller: 'ResultsCtrl'
       }
-    })
-    .state('tab.result-detail', {
-      url: '/results/:resultId',
-      views: {
-        'tab-results': {
-          templateUrl: 'templates/result-detail.html',
-          controller: 'ResultDetailCtrl'
-        }
+    }
+  })
+  .state('tab.result-detail', {
+    url: '/results/:resultId',
+    views: {
+      'tab-results': {
+        templateUrl: 'templates/result-detail.html',
+        controller: 'ResultDetailCtrl'
       }
-    })
+    }
+  })
 
   .state('tab.about', {
     url: '/about',
     views: {
       'tab-about': {
         templateUrl: 'templates/tab-about.html',
-        controller: 'AboutCtrl'
+        // controller: 'AboutCtrl'
+      }
+    }
+  })
+  .state('tab.about-divergent', {
+    url: '/about/divergent',
+    views: {
+      'tab-about': {
+        templateUrl: 'templates/divergent-thinking.html',
+        // controller: 'DivergentCtrl'
+      }
+    }
+  })
+  .state('tab.about-tos', {
+    url: '/about/tos',
+    views: {
+      'tab-about': {
+        templateUrl: 'templates/tos.html',
+        // controller: 'TosCtrl'
       }
     }
   });
