@@ -1,17 +1,44 @@
-angular.module('starter.controllers', [])
+angular.module('oaeApp.controllers', [])
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
-  $scope.data = {};
+.controller('LoginCtrl', function($scope, $ionicPopup, $state, $lfmo, LoginFactory) {
+
+  init();
+
+  function init() {
+    var lastUser = {};
+
+    LoginFactory.loadLastUser().then(function() {
+      lastUser = LoginFactory.getLastUser();
+      console.log(lastUser, 'lastUser');
+      $scope.user = lastUser;
+    });
+  }
 
   $scope.login = function() {
-    LoginService.loginUser($scope.data.email).success(function(data) {
-      $state.go('tab.dash');
-    }).error(function(data) {
-      var alertPopup = $ionicPopup.confirm({
-        title: 'Create new profile?',
-        template: 'We don\'t have a profile with "' + $scope.data.email + '".<br />Do you want to create new profile?'
+    LoginFactory.loginUser($scope.user.email)
+      .success(function(user) {
+        $state.go('tab.test');
+      })
+      .error(function(user) {
+        var alertPopup = $ionicPopup.confirm({
+          title: 'Create new profile?',
+          template: 'We don\'t have a profile with "' + $scope.user.email + '".<br />Do you want to create new profile?'
+        });
+        alertPopup.then(function(res) {
+          if (res) {
+            console.log('Creating user');
+            LoginFactory.createUser($scope.user.email).success(function(user) {
+              LoginFactory.loginUser($scope.user.email)
+                .success(function(user) {
+                  $state.go('tab.test');
+                });
+            })
+          }
+          else {
+            console.log('Cancel, don\'t create user');
+          }
+        });
       });
-    });
   }
 })
 

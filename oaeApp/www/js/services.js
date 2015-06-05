@@ -1,28 +1,115 @@
-angular.module('starter.services', [])
+angular.module('oaeApp.services', [])
 
-.service('LoginService', function($q) {
-  return {
-    loginUser: function(email) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
+.factory('LoginFactory', function($q, $filter, $lfmo) {
+  var service = {};
+  var lastUser = {};
+  // var users = {};
 
-      if (email == 'a@a.com') {
-        deferred.resolve('Welcome ' + email + '!');
+  var users = $lfmo.define('users');
+
+  // if there are no users create some
+  // users.findAll().then(function (items) {
+  //   if (items.length === 0) {
+  //     users.create({
+  //       email: 'ck@origineight.net',
+  //       tests: [],
+  //       lastAccess: Date.now()
+  //     });
+  //   }
+  // });
+
+  service.loadLastUser = function() {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    users.findAll().then(function (user) {
+      console.log(user, 'lastUser loaded');
+
+      var filtered = $filter('orderBy')(user, 'lastAccess');
+      console.log(filtered, 'filtered ordered');
+      filtered = $filter('limitTo')(filtered, 1);
+      console.log(filtered, 'filtered first item');
+
+      if (filtered.length > 0) {
+        lastUser = filtered[0];
+      }
+      deferred.resolve();
+    });
+
+    return deferred.promise;
+  }
+
+  service.getLastUser = function() {
+    return lastUser;
+  }
+
+  service.loginUser = function(emailEntered) {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    users.findAll({ email: emailEntered }).then(function (user) {
+      if (user.length > 0) {
+        // user found
+        lastUser = user[0];
+        console.log(lastUser, 'current user');
+
+        // update lastAccess
+        users.update(lastUser.id, { lastAccess: Date.now() }).then(function (user) {
+          users.get(lastUser.id).then(function (user) {
+            lastUser = user;
+            console.log(lastUser, 'current user updated lastAccess');
+          });
+        });
+
+        deferred.resolve();
       }
       else {
-        deferred.reject('Wrong credentials.');
+        deferred.reject('Email not found.');
       }
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      }
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      }
+    });
+    promise.success = function(fn) {
+      promise.then(fn);
       return promise;
     }
+    promise.error = function(fn) {
+      promise.then(null, fn);
+      return promise;
+    }
+    return promise;
   }
+
+  service.createUser = function(emailEntered) {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    users.findAll({ email: emailEntered }).then(function (user) {
+      // email exist
+      if (user.length > 0) {
+        deferred.reject('Email already exist.');
+      }
+      else {
+        // create the user
+        users.create({
+          email: emailEntered,
+          tests: []
+        }).then(function (user) {
+          console.log(user, 'user created');
+        })
+        deferred.resolve();
+      }
+    });
+    promise.success = function(fn) {
+      promise.then(fn);
+      return promise;
+    }
+    promise.error = function(fn) {
+      promise.then(null, fn);
+      return promise;
+    }
+    return promise;
+  }
+
+  return service;
 })
 
 .factory('Chats', function() {
