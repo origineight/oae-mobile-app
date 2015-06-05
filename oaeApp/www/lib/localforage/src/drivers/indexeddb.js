@@ -6,7 +6,7 @@
     // Originally found in https://github.com/mozilla-b2g/gaia/blob/e8f624e4cc9ea945727278039b3bc9bcb9f8667a/shared/js/async_storage.js
 
     // Promises!
-    var Promise = (typeof module !== 'undefined' && module.exports) ?
+    var Promise = (typeof module !== 'undefined' && module.exports && typeof require !== 'undefined') ?
                   require('promise') : this.Promise;
 
     // Initialize IndexedDB; fall back to vendor-prefixed versions if needed.
@@ -82,7 +82,7 @@
             }).catch(reject);
         });
 
-        executeDeferedCallback(promise, callback);
+        executeCallback(promise, callback);
         return promise;
     }
 
@@ -97,12 +97,13 @@
                                      .objectStore(dbInfo.storeName);
 
                 var req = store.openCursor();
+                var iterationNumber = 1;
 
                 req.onsuccess = function() {
                     var cursor = req.result;
 
                     if (cursor) {
-                        var result = iterator(cursor.value, cursor.key);
+                        var result = iterator(cursor.value, cursor.key, iterationNumber++);
 
                         if (result !== void(0)) {
                             resolve(result);
@@ -120,7 +121,7 @@
             }).catch(reject);
         });
 
-        executeDeferedCallback(promise, callback);
+        executeCallback(promise, callback);
 
         return promise;
     }
@@ -138,8 +139,8 @@
         var promise = new Promise(function(resolve, reject) {
             self.ready().then(function() {
                 var dbInfo = self._dbInfo;
-                var store = dbInfo.db.transaction(dbInfo.storeName, 'readwrite')
-                              .objectStore(dbInfo.storeName);
+                var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
+                var store = transaction.objectStore(dbInfo.storeName);
 
                 // The reason we don't _save_ null is because IE 10 does
                 // not support saving the `null` type in IndexedDB. How
@@ -150,7 +151,7 @@
                 }
 
                 var req = store.put(value, key);
-                req.onsuccess = function() {
+                transaction.oncomplete = function() {
                     // Cast to undefined so the value passed to
                     // callback/promise is the same as what one would get out
                     // of `getItem()` later. This leads to some weirdness
@@ -163,13 +164,14 @@
 
                     resolve(value);
                 };
-                req.onerror = function() {
-                    reject(req.error);
+                transaction.onabort = transaction.onerror = function() {
+                    var err = req.error ? req.error : req.transaction.error;
+                    reject(err);
                 };
             }).catch(reject);
         });
 
-        executeDeferedCallback(promise, callback);
+        executeCallback(promise, callback);
         return promise;
     }
 
@@ -186,8 +188,8 @@
         var promise = new Promise(function(resolve, reject) {
             self.ready().then(function() {
                 var dbInfo = self._dbInfo;
-                var store = dbInfo.db.transaction(dbInfo.storeName, 'readwrite')
-                              .objectStore(dbInfo.storeName);
+                var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
+                var store = transaction.objectStore(dbInfo.storeName);
 
                 // We use a Grunt task to make this safe for IE and some
                 // versions of Android (including those used by Cordova).
@@ -195,27 +197,24 @@
                 // using `['delete']()`, but we have a build step that
                 // fixes this for us now.
                 var req = store.delete(key);
-                req.onsuccess = function() {
+                transaction.oncomplete = function() {
                     resolve();
                 };
 
-                req.onerror = function() {
+                transaction.onerror = function() {
                     reject(req.error);
                 };
 
-                // The request will be aborted if we've exceeded our storage
-                // space. In this case, we will reject with a specific
-                // "QuotaExceededError".
-                req.onabort = function(event) {
-                    var error = event.target.error;
-                    if (error === 'QuotaExceededError') {
-                        reject(error);
-                    }
+                // The request will be also be aborted if we've exceeded our storage
+                // space.
+                transaction.onabort = function() {
+                    var err = req.error ? req.error : req.transaction.error;
+                    reject(err);
                 };
             }).catch(reject);
         });
 
-        executeDeferedCallback(promise, callback);
+        executeCallback(promise, callback);
         return promise;
     }
 
@@ -225,21 +224,22 @@
         var promise = new Promise(function(resolve, reject) {
             self.ready().then(function() {
                 var dbInfo = self._dbInfo;
-                var store = dbInfo.db.transaction(dbInfo.storeName, 'readwrite')
-                              .objectStore(dbInfo.storeName);
+                var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
+                var store = transaction.objectStore(dbInfo.storeName);
                 var req = store.clear();
 
-                req.onsuccess = function() {
+                transaction.oncomplete = function() {
                     resolve();
                 };
 
-                req.onerror = function() {
-                    reject(req.error);
+                transaction.onabort = transaction.onerror = function() {
+                    var err = req.error ? req.error : req.transaction.error;
+                    reject(err);
                 };
             }).catch(reject);
         });
 
-        executeDeferedCallback(promise, callback);
+        executeCallback(promise, callback);
         return promise;
     }
 
@@ -364,29 +364,6 @@
         }
     }
 
-    function executeDeferedCallback(promise, callback) {
-        if (callback) {
-            promise.then(function(result) {
-                deferCallback(callback, result);
-            }, function(error) {
-                callback(error);
-            });
-        }
-    }
-
-    // Under Chrome the callback is called before the changes (save, clear)
-    // are actually made. So we use a defer function which wait that the
-    // call stack to be empty.
-    // For more info : https://github.com/mozilla/localForage/issues/175
-    // Pull request : https://github.com/mozilla/localForage/pull/178
-    function deferCallback(callback, result) {
-        if (callback) {
-            return setTimeout(function() {
-                return callback(null, result);
-            }, 0);
-        }
-    }
-
     var asyncStorage = {
         _driver: 'asyncStorage',
         _initStorage: _initStorage,
@@ -400,12 +377,12 @@
         keys: keys
     };
 
-    if (typeof define === 'function' && define.amd) {
+    if (typeof module !== 'undefined' && module.exports && typeof require !== 'undefined') {
+        module.exports = asyncStorage;
+    } else if (typeof define === 'function' && define.amd) {
         define('asyncStorage', function() {
             return asyncStorage;
         });
-    } else if (typeof module !== 'undefined' && module.exports) {
-        module.exports = asyncStorage;
     } else {
         this.asyncStorage = asyncStorage;
     }
