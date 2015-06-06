@@ -1,0 +1,32 @@
+<ion-view view-title="{{test.alt}}">
+  <ion-content>
+    <div class="test-image">
+      <img class="test-image full-image" ng-src="{{test.image}}">
+    </div>
+    <div class="test-count">
+      <div class="idea-count balanced">
+        <ng-pluralize count="runTest.ideaCount"
+          when="{'0': '0 Ideas',
+                 'one': '1 Idea',
+                 'other': '{} Ideas'}">
+        </ng-pluralize>
+      </div>
+      <small>Write your idea and <br/>press "Enter" to start the next one.</small>
+    </div>
+    <div class="test-idea padding">
+      <label class="item item-input">
+        <textarea name="idea" placeholder="Your idea here"
+          ng-model="runTest.idea">
+        </textarea>
+      </label>
+    </div>
+  user: {{user}}<br/>
+  test: {{test}}<br/>
+  runTest: {{runTest}}
+  </ion-content>
+  <ion-nav-buttons side="right">
+    <button class="button button-large button-clear button-balanced">
+      {{runTest.countdown}}
+    </button>
+  </ion-nav-buttons>
+</ion-view>

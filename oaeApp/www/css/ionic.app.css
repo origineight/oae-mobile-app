@@ -7691,3 +7691,13 @@ label.item.has-error {
   color: #666;
   line-height: 1.2;
   margin-top: 20px; }
+
+.test-count {
+  line-height: 1.2;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+.idea-count {
+  float: right;
+  font-size: 24px;
+  margin-left: 5px; }

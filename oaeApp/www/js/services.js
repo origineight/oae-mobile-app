@@ -112,7 +112,7 @@ angular.module('oaeApp.services', [])
   return service;
 })
 
-.factory('Tests', function() {
+.factory('TestsFactory', function() {
   var tests = [{
     id: 0,
     image: 'img/tests/Batteries.jpg',
@@ -167,7 +167,7 @@ angular.module('oaeApp.services', [])
     alt: 'Plastic forks'
   }, {
     id: 13,
-    image: 'img/tests/Plastic Spool.jpg',
+    image: 'img/tests/PlasticSpoolwHand.jpg',
     alt: 'Plastic spool from roll of paper'
   }, {
     id: 14,
@@ -208,15 +208,14 @@ angular.module('oaeApp.services', [])
       return null;
     },
     draw: function() {
-      var range = tests.length + 1;
-      var random = Math.floor(Math.random() * range);
-      console.log(random, 'draw random');
+      var random = Math.floor(Math.random() * tests.length);
+      console.log(random, 'random draw');
       return tests[random];
     }
   };
 })
 
-.factory('Results', function() {
+.factory('ResultsFactory', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data

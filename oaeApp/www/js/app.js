@@ -58,6 +58,15 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
       }
     }
   })
+  .state('tab.start-test', {
+    url: '/test/start',
+    views: {
+      'tab-test': {
+        templateUrl: 'templates/start-test.html',
+        controller: 'TestCtrl'
+      }
+    }
+  })
 
   .state('tab.results', {
     url: '/results',
