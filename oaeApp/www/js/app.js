@@ -43,7 +43,8 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
   .state('tab', {
     url: "/tab",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/tabs.html",
+    controller: 'LoginCtrl'
   })
 
   // Each tab has its own nav history stack:

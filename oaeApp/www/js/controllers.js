@@ -1,22 +1,24 @@
 angular.module('oaeApp.controllers', [])
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, $lfmo, LoginFactory) {
+.controller('LoginCtrl', function($scope, $ionicPopup, $state, $lfmo, $ionicHistory, LoginFactory) {
 
   init();
 
   function init() {
-    var lastUser = {};
+    $scope.isLoggedIn = false;
 
     LoginFactory.loadLastUser().then(function() {
-      lastUser = LoginFactory.getLastUser();
+      var lastUser = LoginFactory.getLastUser();
       console.log(lastUser, 'lastUser');
       $scope.user = lastUser;
     });
   }
 
+  // Login scope
   $scope.login = function() {
     LoginFactory.loginUser($scope.user.email)
       .success(function(user) {
+        $scope.isLoggedIn = true;
         $state.go('tab.test');
       })
       .error(function(user) {
@@ -30,6 +32,7 @@ angular.module('oaeApp.controllers', [])
             LoginFactory.createUser($scope.user.email).success(function(user) {
               LoginFactory.loginUser($scope.user.email)
                 .success(function(user) {
+                  $scope.isLoggedIn = true;
                   $state.go('tab.test');
                 });
             })
@@ -39,6 +42,13 @@ angular.module('oaeApp.controllers', [])
           }
         });
       });
+  }
+
+  // Logout scope
+  $scope.logout = function() {
+    $scope.isLoggedIn = false;
+    $ionicHistory.clearHistory();
+    $state.go('login');
   }
 })
 
