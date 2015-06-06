@@ -112,6 +112,110 @@ angular.module('oaeApp.services', [])
   return service;
 })
 
+.factory('Tests', function() {
+  var tests = [{
+    id: 0,
+    image: 'img/tests/Batteries.jpg',
+    alt: 'Batteries'
+  }, {
+    id: 1,
+    image: 'img/tests/BentWrench.jpg',
+    alt: 'Crescent wrench bent'
+  }, {
+    id: 2,
+    image: 'img/tests/BinderClips.jpg',
+    alt: 'Binder Clips'
+  }, {
+    id: 3,
+    image: 'img/tests/BottleCaps.jpg',
+    alt: 'Plastic bottle caps'
+  }, {
+    id: 4,
+    image: 'img/tests/BusinessCards.jpg',
+    alt: 'Business cards'
+  }, {
+    id: 5,
+    image: 'img/tests/CellophaneTape.jpg',
+    alt: 'Cellophane tape in dispenser'
+  }, {
+    id: 6,
+    image: 'img/tests/ClothespinApart.jpg',
+    alt: 'Wooden clothespin'
+  }, {
+    id: 7,
+    image: 'img/tests/Coins.jpg',
+    alt: 'Coins, pennies'
+  }, {
+    id: 8,
+    image: 'img/tests/Erasers.jpg',
+    alt: 'Erasers for mechanical pencils'
+  }, {
+    id: 9,
+    image: 'img/tests/NailTrimmer.jpg',
+    alt: 'Nail trimmer'
+  }, {
+    id: 10,
+    image: 'img/tests/PaperClips.jpg',
+    alt: 'Paper clips'
+  }, {
+    id: 11,
+    image: 'img/tests/PastaInBox.jpg',
+    alt: 'Pasta mostly in the box'
+  }, {
+    id: 12,
+    image: 'img/tests/PlasticForks.jpg',
+    alt: 'Plastic forks'
+  }, {
+    id: 13,
+    image: 'img/tests/Plastic Spool.jpg',
+    alt: 'Plastic spool from roll of paper'
+  }, {
+    id: 14,
+    image: 'img/tests/PlayingCards.jpg',
+    alt: 'Playing cards'
+  }, {
+    id: 15,
+    image: 'img/tests/RubberBands.jpg',
+    alt: 'Rubber Bands'
+  }, {
+    id: 16,
+    image: 'img/tests/Scissors.jpg',
+    alt: 'Scissors'
+  }, {
+    id: 17,
+    image: 'img/tests/TinCan.jpg',
+    alt: 'Tin can'
+  }, {
+    id: 18,
+    image: 'img/tests/WoodenPencils.jpg',
+    alt: 'Wooden pencils'
+  }, {
+    id: 19,
+    image: 'img/tests/YellowCurlyThing.jpg',
+    alt: 'Yellow curly thing'
+  }];
+
+  return {
+    all: function() {
+      return tests;
+    },
+    get: function(testId) {
+      for (var i = 0; i < tests.length; i++) {
+        if (tests[i].id === parseInt(testId)) {
+          return tests[i];
+        }
+      }
+      return null;
+    },
+    draw: function() {
+      var range = tests.length + 1;
+      var random = Math.floor(Math.random() * range);
+      console.log(random, 'draw random');
+      return tests[random];
+    }
+  };
+}
+
 .factory('Results', function() {
   // Might use a resource here that returns a JSON array
 
