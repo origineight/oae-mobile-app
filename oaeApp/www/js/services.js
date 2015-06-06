@@ -214,7 +214,7 @@ angular.module('oaeApp.services', [])
       return tests[random];
     }
   };
-}
+})
 
 .factory('Results', function() {
   // Might use a resource here that returns a JSON array
