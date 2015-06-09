@@ -20,7 +20,6 @@ angular.module('oaeApp.services', [])
 
   service.loadLastUser = function() {
     var deferred = $q.defer();
-    var promise = deferred.promise;
 
     users.findAll().then(function (user) {
       console.log(user, 'lastUser loaded');
@@ -112,7 +111,7 @@ angular.module('oaeApp.services', [])
   return service;
 })
 
-.factory('TestsFactory', function() {
+.factory('TestsFactory', function($q) {
   var tests = [{
     id: 0,
     image: 'img/tests/Batteries.jpg',
@@ -195,6 +194,8 @@ angular.module('oaeApp.services', [])
     alt: 'Yellow curly thing'
   }];
 
+  var currentTest = null;
+
   return {
     all: function() {
       return tests;
@@ -207,10 +208,16 @@ angular.module('oaeApp.services', [])
       }
       return null;
     },
+    getCurrentTest: function() {
+      return tests[currentTest];
+    },
     draw: function() {
+      var deferred = $q.defer();
       var random = Math.floor(Math.random() * tests.length);
       console.log(random, 'random draw');
-      return tests[random];
+      currentTest = random;
+      deferred.resolve();
+      return deferred.promise;
     }
   };
 })

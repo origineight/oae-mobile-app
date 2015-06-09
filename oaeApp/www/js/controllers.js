@@ -55,7 +55,7 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('TestCtrl', function($scope, $state, LoginFactory, TestsFactory) {
+.controller('TestCtrl', function($scope, $state, $q, $ionicLoading, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
   if ($scope.user === undefined) {
     init();
@@ -91,20 +91,44 @@ angular.module('oaeApp.controllers', [])
 
   // Setup test
   function setupTest() {
-    $scope.test = TestsFactory.draw();
+    // show loading screen
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+    var deferred = $q.defer();
+
+    $scope.test = null;
     $scope.runTest = {
       ideaCount: 0,
       ideas: {}
     }
+
+    // load a random test
+    TestsFactory.draw().then(function() {
+      $scope.test = TestsFactory.getCurrentTest();
+
+      // once test is loaded and ready, give 1 second timeout
+      $ionicLoading.show({
+        template: 'Ready...'
+      });
+      setTimeout(function() {
+        $ionicLoading.hide();
+      }, 1000);
+    });
   }
+
+  // $scope.show = function() {
+  //   $ionicLoading.show({
+  //     template: 'Loading...'
+  //   });
+  // };
+  // $scope.hide = function(){
+  //   $ionicLoading.hide();
+  // };
 
   // Start test
   $scope.startTest = function() {
-    // $scope.test = TestsFactory.draw();
-    // $scope.runTest = {
-    //   ideaCount: 0,
-    //   ideas: {}
-    // }
     $state.go('tab.start-test');
   }
 })
