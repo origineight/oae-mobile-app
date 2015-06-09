@@ -21,7 +21,10 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
+  // disable debug info
+  $compileProvider.debugInfoEnabled(false);
+
   // Enable native scrolling for Android
   var jsScrolling = (ionic.Platform.isAndroid() ) ? false : true;
   $ionicConfigProvider.scrolling.jsScrolling(jsScrolling);
