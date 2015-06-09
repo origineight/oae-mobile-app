@@ -7697,7 +7697,20 @@ label.item.has-error {
   padding-left: 10px;
   padding-right: 10px; }
 
-.idea-count {
+.ideas-count {
   float: right;
   font-size: 24px;
   margin-left: 5px; }
+
+.idea-list .item {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: initial; }
+
+.counter {
+  background-color: #444;
+  border-radius: 40px;
+  color: #fff;
+  display: inline-block;
+  padding: 1px 6px 0px;
+  text-align: center; }

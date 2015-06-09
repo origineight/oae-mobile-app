@@ -4,8 +4,8 @@
       <img class="test-image full-image" ng-src="{{test.image}}">
     </div>
     <div class="test-count">
-      <div class="idea-count balanced">
-        <ng-pluralize count="runTest.ideaCount"
+      <div class="ideas-count balanced">
+        <ng-pluralize count="ideasCount"
           when="{'0': '0 Ideas',
                  'one': '1 Idea',
                  'other': '{} Ideas'}">
@@ -16,17 +16,16 @@
     <div class="test-idea padding">
       <label class="item item-input">
         <textarea name="idea" placeholder="Your idea here"
-          ng-model="runTest.idea">
+          ng-model="$parent.idea"
+          ng-keyup="$event.keyCode == 13 ? enterIdea() : ''"
+          split-array>
         </textarea>
       </label>
     </div>
-  user: {{user}}<br/>
-  test: {{test}}<br/>
-  runTest: {{runTest}}
   </ion-content>
   <ion-nav-buttons side="right">
     <button class="button button-large button-clear button-balanced">
-      {{runTest.countdown}}
+    <timer id="countdown" interval="1000" countdown="countdownDuration" autostart="false" finish-callback="endTest()">{{countdown}}s</timer>
     </button>
   </ion-nav-buttons>
 </ion-view>

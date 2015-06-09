@@ -22,7 +22,7 @@ angular.module('oaeApp.controllers', [])
     LoginFactory.loginUser($scope.user.email)
       .success(function(user) {
         $scope.isLoggedIn = true;
-        $state.go('tab.test');
+        $state.go('tab.test', { location: 'replace' });
       })
       .error(function(user) {
         var alertPopup = $ionicPopup.confirm({
@@ -36,7 +36,7 @@ angular.module('oaeApp.controllers', [])
               LoginFactory.loginUser($scope.user.email)
                 .success(function(user) {
                   $scope.isLoggedIn = true;
-                  $state.go('tab.test');
+                  $state.go('tab.test', { location: 'replace' });
                 });
             })
           }
@@ -51,29 +51,26 @@ angular.module('oaeApp.controllers', [])
   $scope.logout = function() {
     $scope.isLoggedIn = false;
     $ionicHistory.clearHistory();
-    $state.go('login');
+    $state.go('login', { location: 'replace' });
   }
 })
 
-.controller('TestCtrl', function($scope, $state, $q, $ionicLoading, LoginFactory, TestsFactory) {
+.controller('TestCtrl', function($scope, $state, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
+
+  var ideas = [];
+
+  // @TODO:
+  // - hide back button
+  // - hide tabs bar
   if ($scope.user === undefined) {
     init();
   }
   else if ($state.current.name == "tab.start-test") {
-    // @TODO:
-    // - show loading
-    // - hide loading when donw
-    // - countdown timer
-    //   - stop test when time's up
-    // - run test
-    //   - save ideas
-    // - hide back button
-    // - stop test
-    //   - save user ideas
-    //   - calculate percentile
-    //   - redirect to end test page
     setupTest();
+  }
+  else if ($state.current.name == "tab.end-test") {
+    setupEndTest();
   }
 
   function init() {
@@ -89,6 +86,23 @@ angular.module('oaeApp.controllers', [])
     }
   }
 
+  var readyText = ['Ready...', 'Ready...Go!'];
+  var readyCount = 0;
+  var readyTimer = null;
+
+  function setReadyTimer() {
+    if (readyCount === readyText.length) {
+      clearInterval(readyTimer);
+      startTest();
+    }
+    else {
+      $ionicLoading.show({
+        template: readyText[readyCount]
+      });
+      readyCount++;
+    }
+  }
+
   // Setup test
   function setupTest() {
     // show loading screen
@@ -96,41 +110,74 @@ angular.module('oaeApp.controllers', [])
       template: 'Loading...'
     });
 
-    var deferred = $q.defer();
-
+    $scope.countdownDuration = 120;
+    // $scope.countdownDuration = 20;
     $scope.test = null;
-    $scope.runTest = {
-      ideaCount: 0,
-      ideas: {}
-    }
+    $scope.idea = '';
+    $scope.ideasCount = 0;
+    ideas: []
 
     // load a random test
     TestsFactory.draw().then(function() {
       $scope.test = TestsFactory.getCurrentTest();
 
-      // once test is loaded and ready, give 1 second timeout
-      $ionicLoading.show({
-        template: 'Ready...'
-      });
-      setTimeout(function() {
-        $ionicLoading.hide();
-      }, 1000);
+      readyTimer = setInterval(setReadyTimer, 600)
     });
   }
 
-  // $scope.show = function() {
-  //   $ionicLoading.show({
-  //     template: 'Loading...'
-  //   });
-  // };
-  // $scope.hide = function(){
-  //   $ionicLoading.hide();
-  // };
+  // Setup end of test
+  function setupEndTest() {
+    LoginFactory.loadUser($scope.user.id).then(function(user) {
+      console.log(user, 'reload user');
+      $scope.user = user;
+      var testIdea = $scope.user.tests[$scope.user.tests.length-1];
+      $scope.test = TestsFactory.get(testIdea.testId);
+      $scope.ideas = testIdea.ideas;
+      $scope.ideasCount = testIdea.ideas.length;
+
+      $ionicLoading.hide();
+    });
+  }
 
   // Start test
-  $scope.startTest = function() {
-    $state.go('tab.start-test');
+  function startTest() {
+    $ionicLoading.hide();
+    $scope.$broadcast('timer-start');
   }
+
+  // Do a test
+  $scope.doTest = function() {
+    $state.go('tab.start-test', { location: 'replace' });
+  }
+
+  // Save idea input
+  $scope.enterIdea = function() {
+    console.log($scope.idea);
+    var idea = $scope.idea.replace(/\r\n/g, '');
+    if (idea.length > 0) {
+      ideas.push($scope.idea);
+      $scope.ideasCount = ideas.length;
+    }
+    $scope.idea = '';
+  }
+
+  // End test
+  $scope.endTest = function() {
+    console.log(ideas, 'test ended');
+    // show saving screen
+    $ionicLoading.show({
+      template: 'Saving...'
+    });
+
+    TestsFactory.saveIdeas($scope.user.id, $scope.test.id, ideas).then(function () {
+      $ionicHistory.clearHistory();
+      $state.go('tab.end-test', { location: 'replace' });
+    });
+  }
+})
+
+.controller('TestDetailCtrl', function($scope, $stateParams, ResultsFactory) {
+  $scope.result = ResultsFactory.get($stateParams.resultId);
 })
 
 .controller('ResultsCtrl', function($scope, ResultsFactory) {

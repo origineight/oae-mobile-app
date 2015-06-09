@@ -1,0 +1,28 @@
+<ion-header-bar class="bar-subheader">
+  <h2 class="title">{{test.alt}}</h2>
+</ion-header-bar>
+<ion-view view-title="{{user.email}}">
+  <ion-content>
+    <div class="test-image">
+      <img class="test-image full-image" ng-src="{{test.image}}">
+    </div>
+    <div class="test-count">
+      <strong>Time is up!</strong>
+      <a class="button button-small button-balanced" ng-click="doTest()">Try Again</a>
+      <a ui-sref="tab.results" class="button button-small button-calm">View Results</a>
+    </div>
+    <div class="ideas padding">
+      <p>You have created <ng-pluralize count="ideasCount"
+          when="{'0': '0 ideas',
+                 'one': '1 idea',
+                 'other': '{} ideas'}">
+        </ng-pluralize> for this image.</p>
+    </div>
+    <ul class="idea-list">
+      <li class="item" ng-repeat="idea in ideas | reverse">
+        <span class="counter">{{ideas.length - $index}}</span>
+        {{idea}}
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

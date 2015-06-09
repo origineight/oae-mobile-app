@@ -42,6 +42,17 @@ angular.module('oaeApp.services', [])
     return lastUser;
   }
 
+  service.loadUser = function(userId) {
+    var deferred = $q.defer();
+
+    users.get(userId).then(function (user) {
+      deferred.resolve(user);
+      // return user;
+    });
+
+    return deferred.promise;
+  }
+
   service.loginUser = function(emailEntered) {
     var deferred = $q.defer();
     var promise = deferred.promise;
@@ -111,7 +122,9 @@ angular.module('oaeApp.services', [])
   return service;
 })
 
-.factory('TestsFactory', function($q) {
+.factory('TestsFactory', function($q, $lfmo) {
+  var service = {};
+
   var tests = [{
     id: 0,
     image: 'img/tests/Batteries.jpg',
@@ -195,31 +208,54 @@ angular.module('oaeApp.services', [])
   }];
 
   var currentTest = null;
+  var users = $lfmo.define('users');
 
-  return {
-    all: function() {
-      return tests;
-    },
-    get: function(testId) {
-      for (var i = 0; i < tests.length; i++) {
-        if (tests[i].id === parseInt(testId)) {
-          return tests[i];
-        }
-      }
-      return null;
-    },
-    getCurrentTest: function() {
-      return tests[currentTest];
-    },
-    draw: function() {
-      var deferred = $q.defer();
-      var random = Math.floor(Math.random() * tests.length);
-      console.log(random, 'random draw');
-      currentTest = random;
-      deferred.resolve();
-      return deferred.promise;
-    }
-  };
+  service.all = function() {
+    return tests;
+  }
+  service.get = function(testId) {
+    return tests[testId];
+    // for (var i = 0; i < tests.length; i++) {
+    //   if (tests[i].id === parseInt(testId)) {
+    //     return tests[i];
+    //   }
+    // }
+    // return null;
+  }
+  service.getCurrentTest = function() {
+    return tests[currentTest];
+  }
+  service.draw = function() {
+    var deferred = $q.defer();
+    var random = Math.floor(Math.random() * tests.length);
+    console.log(random, 'random draw');
+    currentTest = random;
+    deferred.resolve();
+    return deferred.promise;
+  }
+  service.saveIdeas = function(uid, testId, ideas) {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+    console.log(uid, 'saveIdeas uid');
+    console.log(testId, 'saveIdeas testId');
+    console.log(ideas, 'saveIdeas ideas');
+
+    users.get(uid).then(function (user) {
+      console.log(user, 'user loaded')
+      newIdeas = user.tests;
+      newIdeas.push({
+        testId: testId,
+        ideas: ideas
+      });
+      users.update(uid, {tests: newIdeas}).then(function (user) {
+        console.log(user, 'ideas saved');
+        deferred.resolve();
+      });
+    })
+    return deferred.promise;
+  }
+
+  return service;
 })
 
 .factory('ResultsFactory', function() {

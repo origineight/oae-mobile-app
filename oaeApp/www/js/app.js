@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'oaeApp.services' is found in services.js
 // 'oaeApp.controllers' is found in controllers.js
-angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.controllers', 'oaeApp.services'])
+angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'oaeApp.controllers', 'oaeApp.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -70,6 +70,15 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
       }
     }
   })
+  .state('tab.end-test', {
+    url: '/test/end/:testId',
+    views: {
+      'tab-test': {
+        templateUrl: 'templates/end-test.html',
+        controller: 'TestCtrl'
+      }
+    }
+  })
 
   .state('tab.results', {
     url: '/results',
@@ -121,4 +130,13 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'oaeApp.control
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
-});
+})
+
+.filter('reverse', function() {
+  return function(items) {
+    if (items !== undefined) {
+      return items.slice().reverse();
+    }
+    return null;
+  };
+});;
