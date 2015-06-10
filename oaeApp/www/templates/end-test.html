@@ -19,7 +19,7 @@
         </ng-pluralize> for this image.</p>
     </div>
     <ul class="idea-list">
-      <li class="item" ng-repeat="idea in ideas | reverse">
+      <li class="item" ng-repeat="idea in ideas | reverse track by $index">
         <span class="counter">{{ideas.length - $index}}</span>
         {{idea}}
       </li>
