@@ -1,41 +1,41 @@
 angular.module('oaeApp.controllers', [])
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicHistory, LoginFactory) {
+.controller('LoginCtrl', function($rootScope, $scope, $ionicPopup, $state, $ionicHistory, LoginFactory) {
 
-  if ($scope.isLoggedIn === undefined || $scope.user == undefined) {
+  if ($rootScope.isLoggedIn === undefined || $rootScope.user == undefined) {
     init();
   }
 
   function init() {
     console.log('LoginCtrl init');
-    $scope.isLoggedIn = false;
+    $rootScope.isLoggedIn = false;
 
     LoginFactory.loadLastUser().then(function() {
       var lastUser = LoginFactory.getLastUser();
       console.log(lastUser, 'lastUser');
-      $scope.user = lastUser;
+      $rootScope.user = lastUser;
     });
   }
 
   // Login scope
   $scope.login = function() {
-    LoginFactory.loginUser($scope.user.email)
+    LoginFactory.loginUser($rootScope.user.email)
       .success(function(user) {
-        $scope.isLoggedIn = true;
+        $rootScope.isLoggedIn = true;
         $state.go('tab.test', { location: 'replace' });
       })
       .error(function(user) {
         var alertPopup = $ionicPopup.confirm({
           title: 'Create new profile?',
-          template: 'We don\'t have a profile with "' + $scope.user.email + '".<br />Do you want to create new profile?'
+          template: 'We don\'t have a profile with "' + $rootScope.user.email + '".<br />Do you want to create new profile?'
         });
         alertPopup.then(function(res) {
           if (res) {
             console.log('Creating user');
-            LoginFactory.createUser($scope.user.email).success(function(user) {
-              LoginFactory.loginUser($scope.user.email)
+            LoginFactory.createUser($rootScope.user.email).success(function(user) {
+              LoginFactory.loginUser($rootScope.user.email)
                 .success(function(user) {
-                  $scope.isLoggedIn = true;
+                  $rootScope.isLoggedIn = true;
                   $state.go('tab.test', { location: 'replace' });
                 });
             })
@@ -49,7 +49,7 @@ angular.module('oaeApp.controllers', [])
 
   // Logout scope
   $scope.logout = function() {
-    $scope.isLoggedIn = false;
+    $rootScope.isLoggedIn = false;
     $ionicHistory.clearHistory();
     $state.go('login', { location: 'replace' });
   }
@@ -60,7 +60,7 @@ angular.module('oaeApp.controllers', [])
 
   var ideas = [];
 
-  if ($scope.user === undefined) {
+  if ($rootScope.isFirstTest === undefined) {
     init();
   }
   else if ($state.current.name == "tab.start-test") {
@@ -74,13 +74,13 @@ angular.module('oaeApp.controllers', [])
   function init() {
     console.log('TestCtrl init');
 
-    $scope.isFirstTest = false;
-    $scope.user = LoginFactory.getLastUser();
+    $rootScope.isFirstTest = false;
+    // $scope.user = LoginFactory.getLastUser();
 
     // number of tests current user has taken
-    $scope.numTestsTaken = $scope.user.tests.length;
+    $scope.numTestsTaken = $rootScope.user.tests.length;
     if ($scope.numTestsTaken == 0) {
-      $scope.isFirstTest = true;
+      $rootScope.isFirstTest = true;
     }
   }
 
@@ -111,7 +111,7 @@ angular.module('oaeApp.controllers', [])
     });
 
     $scope.countdownDuration = 120;
-    // $scope.countdownDuration = 2;
+    // $scope.countdownDuration = 10;
     $rootScope.testRunning = true;
     $scope.test = null;
     $scope.idea = '';
@@ -122,22 +122,18 @@ angular.module('oaeApp.controllers', [])
     TestsFactory.draw().then(function() {
       $scope.test = TestsFactory.getCurrentTest();
 
-      readyTimer = setInterval(setReadyTimer, 600)
+      readyTimer = setInterval(setReadyTimer, 600);
     });
   }
 
   // Setup end of test
   function setupEndTest() {
-    LoginFactory.loadUser($scope.user.id).then(function(user) {
-      console.log(user, 'reload user');
-      $scope.user = user;
-      var testIdea = $scope.user.tests[$scope.user.tests.length-1];
-      $scope.test = TestsFactory.get(testIdea.testId);
-      $scope.ideas = testIdea.ideas;
-      $scope.ideasCount = testIdea.ideas.length;
+    var testIdea = $rootScope.user.tests[$rootScope.user.tests.length-1];
+    $scope.test = TestsFactory.get(testIdea.testId);
+    $scope.ideas = testIdea.ideas;
+    $scope.ideasCount = testIdea.ideas.length;
 
-      $ionicLoading.hide();
-    });
+    $ionicLoading.hide();
   }
 
   // Start test
@@ -172,27 +168,53 @@ angular.module('oaeApp.controllers', [])
       template: 'Saving...'
     });
 
-    TestsFactory.saveIdeas($scope.user.id, $scope.test.id, ideas).then(function () {
+    $rootScope.user.tests.push({
+      testId: $scope.test.id,
+      ideas: ideas
+    })
+
+    LoginFactory.updateUserTests($rootScope.user).then(function () {
       $ionicHistory.clearHistory();
       $state.go('tab.end-test', { location: 'replace' });
     });
   }
 })
 
-.controller('TestDetailCtrl', function($scope, $stateParams, ResultsFactory) {
-  $scope.result = ResultsFactory.get($stateParams.resultId);
-})
-
-.controller('ResultsCtrl', function($scope, ResultsFactory) {
+.controller('ResultsCtrl', function($rootScope, $scope, $ionicLoading, ResultsFactory) {
   console.log('ResultsCtrl init');
-  $scope.results = ResultsFactory.all();
-  $scope.remove = function(result) {
-    ResultsFactory.remove(result);
+
+  init();
+
+  function init() {
+    console.log('ResultsCtrl init');
+
+    // show loading screen
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+    // number of tests current user has taken
+    $scope.numTestsTaken = $rootScope.user.tests.length;
+    if ($scope.numTestsTaken == 0) {
+      $scope.isFirstTest = true;
+    }
+
+    // load all results
+    $scope.results = $rootScope.user.tests;
+
+    // hide loading screen
+    $ionicLoading.hide();
   }
 })
 
-.controller('ResultDetailCtrl', function($scope, $stateParams, ResultsFactory) {
-  $scope.result = ResultsFactory.get($stateParams.resultId);
+.controller('ResultDetailCtrl', function($rootScope, $scope, $stateParams, TestsFactory, ResultsFactory) {
+
+  $scope.result = null;
+  var resultId = parseInt($stateParams.resultId);
+  var results = $rootScope.user.tests;
+
+  $scope.result = results[resultId];
+  $scope.test = TestsFactory.get($scope.result.testId);
 })
 
 .controller('AboutCtrl', function($scope) {

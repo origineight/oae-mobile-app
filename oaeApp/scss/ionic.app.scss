@@ -21,6 +21,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.item-body h1, .item-body h2, .item-body h3, .item-body h4, .item-body h5, .item-body h6, .item-body p {
+  &:last-child {
+    margin-bottom: 16px;
+    margin-top: 0;
+  }
+}
+.item-content span {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
 label.item.has-error {
   border-bottom: 2px solid red;
 }
@@ -58,11 +70,22 @@ label.item.has-error {
   white-space: normal;
   text-overflow: initial;
 }
-.counter {
+.item .counter {
   background-color: $dark;
-  border-radius: 40px;
+  border-radius: 20px;
   color: #fff;
   display: inline-block;
-  padding: 1px 6px 0px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 30px;
+  padding: 0px 6px;
   text-align: center;
+  vertical-align: middle;
+}
+.item .result-percentile {
+  color: $balanced;
+}
+
+.test-image img {
+  max-width: 100%;
 }

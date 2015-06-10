@@ -119,6 +119,19 @@ angular.module('oaeApp.services', [])
     return promise;
   }
 
+  service.updateUserTests = function(updatedUser) {
+    var deferred = $q.defer();
+
+    users.get(updatedUser.id).then(function (user) {
+      users.update(updatedUser.id, {tests: updatedUser.tests}).then(function (user) {
+        console.log(user, 'ideas saved');
+        deferred.resolve();
+      });
+    });
+
+    return deferred.promise;
+  }
+
   return service;
 })
 
@@ -233,76 +246,49 @@ angular.module('oaeApp.services', [])
     deferred.resolve();
     return deferred.promise;
   }
-  service.saveIdeas = function(uid, testId, ideas) {
-    var deferred = $q.defer();
-    var promise = deferred.promise;
-    console.log(uid, 'saveIdeas uid');
-    console.log(testId, 'saveIdeas testId');
-    console.log(ideas, 'saveIdeas ideas');
+  // service.saveIdeas = function(uid, testId, ideas) {
+  //   var deferred = $q.defer();
+  //   var promise = deferred.promise;
+  //   console.log(uid, 'saveIdeas uid');
+  //   console.log(testId, 'saveIdeas testId');
+  //   console.log(ideas, 'saveIdeas ideas');
 
-    users.get(uid).then(function (user) {
-      console.log(user, 'user loaded')
-      newIdeas = user.tests;
-      newIdeas.push({
-        testId: testId,
-        ideas: ideas
-      });
-      users.update(uid, {tests: newIdeas}).then(function (user) {
-        console.log(user, 'ideas saved');
-        deferred.resolve();
-      });
-    })
-    return deferred.promise;
-  }
+  //   users.get(uid).then(function (user) {
+  //     console.log(user, 'user loaded')
+  //     newIdeas = user.tests;
+  //     newIdeas.push({
+  //       testId: testId,
+  //       ideas: ideas
+  //     });
+  //     users.update(uid, {tests: newIdeas}).then(function (user) {
+  //       console.log(user, 'ideas saved');
+  //       deferred.resolve();
+  //     });
+  //   })
+  //   return deferred.promise;
+  // }
 
   return service;
 })
 
-.factory('ResultsFactory', function() {
-  // Might use a resource here that returns a JSON array
+.factory('ResultsFactory', function($q, $lfmo) {
+  var service = {};
+  var results = [];
 
-  // Some fake testing data
-  var results = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  },{
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-  }];
-
-  return {
-    all: function() {
-      return results;
-    },
-    remove: function(result) {
-      results.splice(results.indexOf(result), 1);
-    },
-    get: function(resultId) {
-      for (var i = 0; i < results.length; i++) {
-        if (results[i].id === parseInt(resultId)) {
-          return results[i];
-        }
+  service.all = function() {
+    return results;
+  },
+  // service.remove = function(result) {
+  //   results.splice(results.indexOf(result), 1);
+  // },
+  service.get = function(resultId) {
+    for (var i = 0; i < results.length; i++) {
+      if (results[i].id === parseInt(resultId)) {
+        return results[i];
       }
-      return null;
     }
-  };
+    return null;
+  }
+
+  return service;
 });

@@ -19,11 +19,19 @@
                  'other': '{} ideas'}">
         </ng-pluralize> for this image.</p>
     </div>
-    <ul class="idea-list">
+    <ion-list>
+      <ion-item class="item-icon-right item-text-wrap" ng-repeat="idea in ideas | reverse track by $index">
+        <p class="item-content">
+          <span class="counter">{{ideas.length - $index}}</span>
+          <span>{{idea}}</span>
+        </p>
+      </ion-item>
+    </ion-list>
+<!--     <ul class="idea-list">
       <li class="item" ng-repeat="idea in ideas | reverse track by $index">
         <span class="counter">{{ideas.length - $index}}</span>
         {{idea}}
       </li>
     </ul>
-  </ion-content>
+ -->  </ion-content>
 </ion-view>

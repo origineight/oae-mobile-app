@@ -1,16 +1,37 @@
+<ion-header-bar class="bar-subheader">
+  <h2 class="title">{{user.email}}</h2>
+</ion-header-bar>
+
 <ion-view view-title="Results">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="result in results" type="item-text-wrap" href="#/tab/results/{{result.id}}">
-        <img ng-src="{{result.face}}">
-        <h2>{{result.name}}</h2>
-        <p>{{result.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
+    <div class="list card" ng-hide="isFirstTest">
+      <div class="item item-divider"><i class="icon ion-ios-pulse-strong positive"></i> Statistics</div>
+      <div class="item item-body">
+        <p>You have previously taken this test for <strong>{{numTestsTaken}}</strong> times.</p>
+      </div>
+    </div>
 
-        <ion-option-button class="button-assertive" ng-click="remove(result)">
-          Delete
-        </ion-option-button>
+    <ion-list>
+      <div class="item item-divider">
+        Test Details
+      </div>
+      <ion-item class="item-icon-right item-text-wrap" ng-repeat="result in results | reverse track by $index" href="#/tab/results/{{results.length-$index-1}}">
+        <span class="counter">{{results.length-$index}}</span>
+        <span>{{result.date}}</span>
+        <span class="result-count"><ng-pluralize count="result.ideas.length"
+          when="{'0': '0 ideas',
+                 'one': '1 idea',
+                 'other': '{} ideas'}">
+        </ng-pluralize></span>
+
+        <span class="result-percentile">X%</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>
   </ion-content>
+
+  <ion-nav-buttons side="right">
+    <a class="button button-dark button-clear ion-android-delete"></a>
+  </ion-nav-buttons>
+
 </ion-view>
