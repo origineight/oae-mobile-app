@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'oaeApp.services' is found in services.js
 // 'oaeApp.controllers' is found in controllers.js
-angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'oaeApp.controllers', 'oaeApp.services'])
+angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart.js', 'oaeApp.controllers', 'oaeApp.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

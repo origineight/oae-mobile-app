@@ -202,6 +202,36 @@ angular.module('oaeApp.controllers', [])
     // load all results
     $scope.results = $rootScope.user.tests;
 
+    Chart.defaults.global.colours = [
+      { // blue
+          fillColor: "rgba(56, 126, 245, 0.2)",
+          strokeColor: "#387ef5",
+          pointColor: "#387ef5",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(151,187,205,0.8)"
+      },
+      { // red
+          fillColor: "rgba(247,70,74,0.2)",
+          strokeColor: "rgba(247,70,74,1)",
+          pointColor: "rgba(247,70,74,1)",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(247,70,74,0.8)"
+      }
+    ];
+
+    $scope.labels = [];
+    // $scope.series = ['Tests'];
+    $scope.data = [];
+    var dataPoints = [];
+
+    for (var i = $scope.results.length - 1; i >= 0; i--) {
+      $scope.labels.push(i);
+      dataPoints.push($scope.results[i].ideas.length);
+    };
+    $scope.data.push(dataPoints);
+
     // hide loading screen
     $ionicLoading.hide();
   }
