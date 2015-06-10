@@ -55,7 +55,7 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('TestCtrl', function($scope, $state, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
+.controller('TestCtrl', function($rootScope, $scope, $state, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
   var ideas = [];
@@ -112,6 +112,7 @@ angular.module('oaeApp.controllers', [])
 
     $scope.countdownDuration = 120;
     // $scope.countdownDuration = 20;
+    $rootScope.testRunning = true;
     $scope.test = null;
     $scope.idea = '';
     $scope.ideasCount = 0;
@@ -147,7 +148,7 @@ angular.module('oaeApp.controllers', [])
 
   // Do a test
   $scope.doTest = function() {
-    $state.go('tab.start-test', { location: 'replace' });
+    $state.go('tab.start-test', { location: 'replace', reload: true });
   }
 
   // Save idea input
@@ -158,12 +159,13 @@ angular.module('oaeApp.controllers', [])
       ideas.push($scope.idea);
       $scope.ideasCount = ideas.length;
     }
-    $scope.idea = '';
+    $scope.idea = null;
   }
 
   // End test
   $scope.endTest = function() {
     console.log(ideas, 'test ended');
+    $rootScope.testRunning = false;
     // show saving screen
     $ionicLoading.show({
       template: 'Saving...'

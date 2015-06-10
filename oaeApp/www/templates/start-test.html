@@ -1,4 +1,4 @@
-<ion-view view-title="{{test.alt}}">
+<ion-view view-title="{{test.alt}}" hide-back-button="true">
   <ion-content>
     <div class="test-image">
       <img class="test-image full-image" ng-src="{{test.image}}">
@@ -23,6 +23,9 @@
       </label>
     </div>
   </ion-content>
+  <ion-nav-title>
+    {{test.alt}}
+  </ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button button-large button-clear button-balanced">
     <timer id="countdown" interval="1000" countdown="countdownDuration" autostart="false" finish-callback="endTest()">{{countdown}}s</timer>
