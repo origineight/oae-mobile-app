@@ -1,7 +1,7 @@
 {
   "name": "angular-lfmo",
   "main": "dist/angular-lfmo.js",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://github.com/aeby/angular-lfmo",
   "authors": [
     "Reto Aebersold <aeby@substyle.ch>"
@@ -39,14 +39,14 @@
     "localforage": "1.2.3",
     "angular": "1.2.x - 1.3.x"
   },
-  "_release": "0.1.5",
+  "_release": "0.1.6",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.5",
-    "commit": "09c959b034ea8e901247e1a366321cad92a25c68"
+    "tag": "0.1.6",
+    "commit": "55e798a4d8a73d427a002af12b82cbb239b5c231"
   },
   "_source": "git://github.com/aeby/angular-lfmo.git",
-  "_target": "~0.1.5",
+  "_target": "~0.1.6",
   "_originalSource": "angular-lfmo",
   "_direct": true
 }
