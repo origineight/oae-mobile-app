@@ -55,18 +55,16 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('TestCtrl', function($rootScope, $scope, $state, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
+.controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
   var ideas = [];
 
-  // @TODO:
-  // - hide back button
-  // - hide tabs bar
   if ($scope.user === undefined) {
     init();
   }
   else if ($state.current.name == "tab.start-test") {
+    console.log('TestCtrl tab.start-test');
     setupTest();
   }
   else if ($state.current.name == "tab.end-test") {
@@ -105,13 +103,15 @@ angular.module('oaeApp.controllers', [])
 
   // Setup test
   function setupTest() {
+    console.log('TestCtrl setupTest');
+
     // show loading screen
     $ionicLoading.show({
       template: 'Loading...'
     });
 
     $scope.countdownDuration = 120;
-    // $scope.countdownDuration = 20;
+    // $scope.countdownDuration = 2;
     $rootScope.testRunning = true;
     $scope.test = null;
     $scope.idea = '';
@@ -148,7 +148,8 @@ angular.module('oaeApp.controllers', [])
 
   // Do a test
   $scope.doTest = function() {
-    $state.go('tab.start-test', { location: 'replace', reload: true });
+    console.log('TestCtrl doTest');
+    $state.go('tab.start-test', { location: 'replace', reload: true, inherit: false, notify: true });
   }
 
   // Save idea input

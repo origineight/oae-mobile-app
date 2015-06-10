@@ -63,6 +63,7 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'oaeAp
   })
   .state('tab.start-test', {
     url: '/test/start',
+    cache: false,
     views: {
       'tab-test': {
         templateUrl: 'templates/start-test.html',
@@ -72,6 +73,7 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'oaeAp
   })
   .state('tab.end-test', {
     url: '/test/end/:testId',
+    cache: false,
     views: {
       'tab-test': {
         templateUrl: 'templates/end-test.html',
