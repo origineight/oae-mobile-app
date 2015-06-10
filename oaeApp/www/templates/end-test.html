@@ -1,13 +1,14 @@
 <ion-header-bar class="bar-subheader">
   <h2 class="title">{{test.alt}}</h2>
 </ion-header-bar>
-<ion-view view-title="{{user.email}}">
+<ion-view view-title="{{user.email}}" hide-back-button="true">
   <ion-content>
     <div class="test-image">
       <img class="test-image full-image" ng-src="{{test.image}}">
     </div>
     <div class="test-count">
       <strong>Time is up!</strong>
+      <!-- <a ui-sref="tab.test" class="button button-small button-balanced"">Try Again</a> -->
       <a class="button button-small button-balanced" ng-click="doTest()">Try Again</a>
       <a ui-sref="tab.results" class="button button-small button-calm">View Results</a>
     </div>
