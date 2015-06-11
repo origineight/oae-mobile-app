@@ -104,7 +104,7 @@ angular.module('oaeApp.controllers', [])
     });
 
     $scope.countdownDuration = 120;
-    $scope.countdownDuration = 10;
+    // $scope.countdownDuration = 10;
     $rootScope.testRunning = true;
     $scope.test = null;
     $scope.idea = '';
