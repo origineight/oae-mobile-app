@@ -84,6 +84,7 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
 
   .state('tab.results', {
     url: '/results',
+    cache: false,
     views: {
       'tab-results': {
         templateUrl: 'templates/tab-results.html',
@@ -141,4 +142,10 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
     }
     return null;
   };
-});;
+})
+.filter('startFrom', function() {
+  return function(input, start) {
+      start = +start; //parse to int
+      return input.slice(start);
+  }
+});

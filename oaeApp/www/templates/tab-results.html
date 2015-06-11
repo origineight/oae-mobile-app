@@ -7,7 +7,11 @@
     <div class="list card" ng-hide="isFirstTest">
       <div class="item item-divider"><i class="icon ion-ios-pulse-strong positive"></i> Statistics</div>
       <div class="item item-body">
-        <p>You have previously taken this test for <strong>{{user.numTestsTaken}}</strong> times.</p>
+        <p>You have previously taken this test for <strong>{{user.numTestsTaken}}</strong> <ng-pluralize count="user.numTestsTaken"
+          when="{'0': ' times',
+                 'one': ' time',
+                 'other': ' times'}">
+        </ng-pluralize>.</p>
       </div>
     </div>
 
@@ -20,14 +24,19 @@
     <ion-list>
       <div class="item item-divider">
         Test Details
+        <div class="pagination float-right" ng-hide="results.length <= pageSize">
+          <button class="button-clear icon ion-chevron-left" ng-disabled="currentPage == 0" ng-click="prevPage()"></button>
+            {{currentPage+1}}/{{numPages()}}
+          <button class="button-clear icon ion-chevron-right" ng-disabled="currentPage >= numPages()-1" ng-click="nextPage()"></button>
+        </div>
       </div>
-      <ion-item class="item-icon-right item-text-wrap" ng-repeat="result in results | reverse track by result.id" href="#/tab/results/{{result.id}}">
-        <span class="counter">{{result.id}}</span>
+      <ion-item class="item-result item-icon-right item-text-wrap" ng-repeat="result in results | startFrom:currentPage*pageSize | limitTo:pageSize track by result.id" href="#/tab/results/{{result.id}}">
+        <span class="counter">#{{result.id}}</span>
         <span class="test-date">{{result.date | date : 'shortDate'}}</span>
-        <span class="result-count"><strong>{{result.ideas.length}}</strong> <ng-pluralize count="result.ideas.length"
-          when="{'0': 'ideas',
-                 'one': 'idea',
-                 'other': 'ideas'}">
+        <span class="result-count"><strong>{{result.ideas.length}}</strong><ng-pluralize count="result.ideas.length"
+          when="{'0': ' ideas',
+                 'one': ' idea',
+                 'other': ' ideas'}">
         </ng-pluralize></span>
 
         <span class="result-percentile">X%</span>

@@ -7723,18 +7723,31 @@ label.item.has-error {
   border-radius: 20px;
   color: #fff;
   display: inline-block;
+  float: left;
   font-size: 12px;
   font-weight: bold;
+  margin-bottom: 15px;
+  margin-right: 10px;
   min-width: 30px;
   padding: 0px 6px;
   text-align: center;
   vertical-align: middle; }
 
-.item .result-percentile {
+.item-result .counter, .item-result .test-date, .item-result .result-count {
+  margin-right: 15px; }
+
+.result-percentile {
   color: #33cd5f; }
 
 .test-image img {
   max-width: 100%; }
+
+.float-right {
+  display: inline-block;
+  float: right; }
+
+.pagination button:not(:disabled) {
+  color: #444; }
 
 /* angular-chart */
 .chart-legend, .bar-legend, .line-legend, .pie-legend, .radar-legend, .polararea-legend, .doughnut-legend {

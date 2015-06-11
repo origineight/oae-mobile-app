@@ -153,13 +153,16 @@ angular.module('oaeApp.controllers', [])
 
   // Save idea input
   $scope.enterIdea = function() {
-    console.log($scope.idea);
-    var idea = $scope.idea.replace(/\r\n/g, '');
-    if (idea.length > 0) {
-      ideas.push($scope.idea);
-      $scope.ideasCount = ideas.length;
+    // prevent race condition
+    if ($rootScope.testRunning) {
+      console.log($scope.idea);
+      var idea = $scope.idea.replace(/\r\n/g, '');
+      if (idea.length > 0) {
+        ideas.push($scope.idea);
+        $scope.ideasCount = ideas.length;
+      }
+      $scope.idea = null;
     }
-    $scope.idea = null;
   }
 
   // End test, called by end of timer
@@ -187,8 +190,8 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($rootScope, $scope, $ionicLoading, ResultsFactory) {
-  console.log('ResultsCtrl init');
+.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, ResultsFactory) {
+  console.log('ResultsCtrl');
 
   init();
 
@@ -201,8 +204,11 @@ angular.module('oaeApp.controllers', [])
     });
 
     // load all results
-    $scope.results = $rootScope.user.tests;
+    var results = $rootScope.user.tests;
+    $scope.results = results.sort(sortBy('id', true, parseInt));
+    console.log($scope.results, 'sorted - $scope.results');
 
+    // Chart color
     Chart.defaults.global.colours = [
       { // blue
           fillColor: "rgba(56, 126, 245, 0.2)",
@@ -222,19 +228,76 @@ angular.module('oaeApp.controllers', [])
       }
     ];
 
+    // Chart data
     $scope.labels = [];
-    // $scope.series = ['Tests'];
+    $scope.series = ['Number of ideas'];
     $scope.data = [];
-    var dataPoints = [];
 
-    for (var i = $scope.results.length - 1; i >= 0; i--) {
-      $scope.labels.push(i);
-      dataPoints.push($scope.results[i].ideas.length);
+    // pagination
+    $scope.currentPage = 0;
+    $scope.pageSize = 10;
+    // render first chart
+    paginateChart();
+
+    $scope.numPages = function() {
+      return Math.ceil($scope.results.length / $scope.pageSize);
     };
-    $scope.data.push(dataPoints);
+
+    // $watch not working
+    // $scope.$watch('currentPage + pageSize', paginateChart);
+    $scope.nextPage = function() {
+      $scope.currentPage = $scope.currentPage + 1;
+      paginateChart();
+    }
+    $scope.prevPage = function() {
+      $scope.currentPage = $scope.currentPage - 1;
+      paginateChart();
+    }
 
     // hide loading screen
     $ionicLoading.hide();
+  }
+
+  // Update chart based on paginated results
+  function paginateChart() {
+    console.log('paginateResults');
+    console.log($scope.currentPage, '$scope.currentPage');
+    console.log($scope.pageSize, '$scope.pageSize');
+    var begin = $scope.currentPage * $scope.pageSize;
+    var end = begin + $scope.pageSize;
+
+    var filteredResults = $scope.results.slice(begin, end);
+    console.log(begin, 'begin');
+    console.log(end, 'end');
+    console.log(filteredResults, 'filteredResults');
+
+    var dataPoints = [];
+    $scope.labels = [];
+    $scope.data = [];
+
+    for (var i = 0; i < filteredResults.length; i++) {
+      $scope.labels.push($filter('date')(filteredResults[i].date, 'shortDate') + ' #' + filteredResults[i].id);
+      dataPoints.push(filteredResults[i].ideas.length);
+    };
+    $scope.data.push(dataPoints);
+  }
+
+  // Helper function to sort by primer
+  // e.g.
+  // - Sort by price high to low
+  // homes.sort(sort_by('price', true, parseInt));
+  // - Sort by city, case-insensitive, A-Z
+  // homes.sort(sort_by('city', false, function(a){return a.toUpperCase()}));
+  function sortBy(field, reverse, primer) {
+    var key = primer ?
+    function(x) {return primer(x[field])} :
+    function(x) {return x[field]};
+
+    reverse = !reverse ? 1 : -1;
+
+    return function (a, b) {
+      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
   }
 })
 

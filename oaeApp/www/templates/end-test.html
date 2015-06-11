@@ -6,24 +6,25 @@
     <div class="test-image">
       <img class="test-image full-image" ng-src="{{test.image}}">
     </div>
-    <div class="test-count">
-      <strong>Time is up!</strong>
-      <!-- <a ui-sref="tab.test" class="button button-small button-balanced"">Try Again</a> -->
-      <a class="button button-small button-balanced" ng-click="doTest()">Try Again</a>
-      <a ui-sref="tab.results" class="button button-small button-calm">View Results</a>
-    </div>
-    <div class="ideas padding">
-      <p>You have created <strong>{{ideasCount}}</strong><ng-pluralize count="ideasCount"
-          when="{'0': ' ideas',
-                 'one': ' idea',
-                 'other': ' ideas'}">
-        </ng-pluralize> for this image.</p>
-    </div>
     <ion-list>
+      <ion-item class="test-count">
+        <span>Time is up!</span>
+        <div class="float-right">
+          <a class="button button-small button-balanced" ng-click="doTest()">Try Again</a>
+          <a ui-sref="tab.results" class="button button-small button-calm">View Results</a>
+        </div>
+      </ion-item>
+      <ion-item class="item-divider ideas">
+        <p>You have created <strong>{{ideasCount}}</strong><ng-pluralize count="ideasCount"
+            when="{'0': ' ideas',
+                   'one': ' idea',
+                   'other': ' ideas'}">
+          </ng-pluralize> for this image.</p>
+      </ion-item>
       <ion-item class="item-icon-right item-text-wrap" ng-repeat="idea in ideas | reverse track by $index">
         <p class="item-content">
           <span class="counter">{{ideas.length - $index}}</span>
-          <span>{{idea}}</span>
+          <span class="idea">{{idea}}</span>
         </p>
       </ion-item>
     </ion-list>

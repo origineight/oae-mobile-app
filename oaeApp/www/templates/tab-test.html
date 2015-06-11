@@ -10,7 +10,7 @@
           This is your first test as <strong>{{user.email}}</strong>.
         </p>
         <p>You will be shown an image and you will have</p>
-        <div class="text-center"><strong>120 seconds</strong></div>
+        <div class="text-center"><strong>120 seconds</strong></div><br />
         <p>to list as many creative ideas about this image. Press Enter after each idea.</p>
 
         <p>Click this button when you are ready.</p>
@@ -22,7 +22,11 @@
     <div class="list card" ng-hide="isFirstTest">
       <div class="item item-divider"><i class="icon ion-ios-pulse-strong"></i> Statistics</div>
       <div class="item item-body">
-        <p>You have previously taken this test for {{user.numTestsTaken}} times.<br />
+        <p>You have previously taken this test for <strong>{{user.numTestsTaken}}</strong> <ng-pluralize count="user.numTestsTaken"
+          when="{'0': ' times',
+                 'one': ' time',
+                 'other': ' times'}">
+        </ng-pluralize>.<br />
         Select the Results tab to see your progress.</p>
       </div>
     </div>
