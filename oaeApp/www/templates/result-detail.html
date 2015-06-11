@@ -2,15 +2,19 @@
   <h2 class="title">{{user.email}}</h2>
 </ion-header-bar>
 
-<ion-view view-title="{{result.date}}">
+<ion-view view-title="Result">
+  <ion-nav-title>
+    Test #{{result.id}} - {{result.date | date : 'mediumDate'}}
+  </ion-nav-title>
+
   <ion-content class="">
     <div class="list card" ng-hide="isFirstTest">
       <div class="item item-divider"><i class="icon ion-ios-list-outline"></i> Test Details</div>
       <div class="item item-body">
-        <p><ng-pluralize count="result.ideas.length"
-          when="{'0': '0 ideas',
-                 'one': '1 idea',
-                 'other': '{} ideas'}">
+        <p><strong>{{result.ideas.length}}</strong><ng-pluralize count="result.ideas.length"
+          when="{'0': ' ideas',
+                 'one': ' idea',
+                 'other': ' ideas'}">
         </ng-pluralize> for <strong>{{test.alt}}</strong>.</p>
         <p class="result-percentile">
           X%

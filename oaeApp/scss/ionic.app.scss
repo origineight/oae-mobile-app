@@ -22,6 +22,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 
 .item-body h1, .item-body h2, .item-body h3, .item-body h4, .item-body h5, .item-body h6, .item-body p {
+  margin-top: 0;
+
   &:last-child {
     margin-bottom: 16px;
     margin-top: 0;

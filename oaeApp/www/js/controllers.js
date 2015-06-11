@@ -35,6 +35,8 @@ angular.module('oaeApp.controllers', [])
             LoginFactory.createUser($rootScope.user.email).success(function(user) {
               LoginFactory.loginUser($rootScope.user.email)
                 .success(function(user) {
+                  // update user scope
+                  $rootScope.user = user;
                   $rootScope.isLoggedIn = true;
                   $state.go('tab.test', { location: 'replace' });
                 });
@@ -58,6 +60,7 @@ angular.module('oaeApp.controllers', [])
 .controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
+  // list of ideas entered by user in a test
   var ideas = [];
 
   if ($rootScope.isFirstTest === undefined) {
@@ -75,15 +78,14 @@ angular.module('oaeApp.controllers', [])
     console.log('TestCtrl init');
 
     $rootScope.isFirstTest = false;
-    // $scope.user = LoginFactory.getLastUser();
 
     // number of tests current user has taken
-    $scope.numTestsTaken = $rootScope.user.tests.length;
-    if ($scope.numTestsTaken == 0) {
+    if ($rootScope.user.numTestsTaken == 0) {
       $rootScope.isFirstTest = true;
     }
   }
 
+  // Loading countdown before start test
   var readyText = ['Ready...', 'Ready...Go!'];
   var readyCount = 0;
   var readyTimer = null;
@@ -111,7 +113,7 @@ angular.module('oaeApp.controllers', [])
     });
 
     $scope.countdownDuration = 120;
-    // $scope.countdownDuration = 10;
+    $scope.countdownDuration = 10;
     $rootScope.testRunning = true;
     $scope.test = null;
     $scope.idea = '';
@@ -139,6 +141,7 @@ angular.module('oaeApp.controllers', [])
   // Start test
   function startTest() {
     $ionicLoading.hide();
+    // Start the test timer
     $scope.$broadcast('timer-start');
   }
 
@@ -159,16 +162,20 @@ angular.module('oaeApp.controllers', [])
     $scope.idea = null;
   }
 
-  // End test
+  // End test, called by end of timer
   $scope.endTest = function() {
     console.log(ideas, 'test ended');
-    $rootScope.testRunning = false;
     // show saving screen
     $ionicLoading.show({
       template: 'Saving...'
     });
 
+    $rootScope.testRunning = false;
+
+    $rootScope.user.numTestsTaken++;
     $rootScope.user.tests.push({
+      id: $rootScope.user.numTestsTaken,
+      date: Date.now(),
       testId: $scope.test.id,
       ideas: ideas
     })
@@ -192,12 +199,6 @@ angular.module('oaeApp.controllers', [])
     $ionicLoading.show({
       template: 'Loading...'
     });
-
-    // number of tests current user has taken
-    $scope.numTestsTaken = $rootScope.user.tests.length;
-    if ($scope.numTestsTaken == 0) {
-      $scope.isFirstTest = true;
-    }
 
     // load all results
     $scope.results = $rootScope.user.tests;
@@ -241,10 +242,13 @@ angular.module('oaeApp.controllers', [])
 
   $scope.result = null;
   var resultId = parseInt($stateParams.resultId);
-  var results = $rootScope.user.tests;
 
-  $scope.result = results[resultId];
-  $scope.test = TestsFactory.get($scope.result.testId);
+  ResultsFactory.setResults($rootScope.user.tests);
+  ResultsFactory.get(resultId).then(function(result) {
+    console.log(result);
+    $scope.result = result;
+    $scope.test = TestsFactory.get($scope.result.testId);
+  });
 })
 
 .controller('AboutCtrl', function($scope) {

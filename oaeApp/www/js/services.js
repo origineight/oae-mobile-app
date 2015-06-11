@@ -68,10 +68,10 @@ angular.module('oaeApp.services', [])
           users.get(lastUser.id).then(function (user) {
             lastUser = user;
             console.log(lastUser, 'current user updated lastAccess');
+            deferred.resolve(user);
           });
         });
 
-        deferred.resolve();
       }
       else {
         deferred.reject('Email not found.');
@@ -101,11 +101,12 @@ angular.module('oaeApp.services', [])
         // create the user
         users.create({
           email: emailEntered,
+          numTestsTaken: 0,
           tests: []
         }).then(function (user) {
           console.log(user, 'user created');
+          deferred.resolve(user);
         })
-        deferred.resolve();
       }
     });
     promise.success = function(fn) {
@@ -123,7 +124,7 @@ angular.module('oaeApp.services', [])
     var deferred = $q.defer();
 
     users.get(updatedUser.id).then(function (user) {
-      users.update(updatedUser.id, {tests: updatedUser.tests}).then(function (user) {
+      users.update(updatedUser.id, {numTestsTaken: updatedUser.numTestsTaken, tests: updatedUser.tests}).then(function (user) {
         console.log(user, 'ideas saved');
         deferred.resolve();
       });
@@ -278,16 +279,21 @@ angular.module('oaeApp.services', [])
   service.all = function() {
     return results;
   },
+  service.setResults = function(data) {
+    results = data;
+  },
   // service.remove = function(result) {
   //   results.splice(results.indexOf(result), 1);
   // },
   service.get = function(resultId) {
+    var deferred = $q.defer();
+
     for (var i = 0; i < results.length; i++) {
       if (results[i].id === parseInt(resultId)) {
-        return results[i];
+        deferred.resolve(results[i]);
       }
     }
-    return null;
+    return deferred.promise;
   }
 
   return service;

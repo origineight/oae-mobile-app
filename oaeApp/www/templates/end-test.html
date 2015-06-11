@@ -13,10 +13,10 @@
       <a ui-sref="tab.results" class="button button-small button-calm">View Results</a>
     </div>
     <div class="ideas padding">
-      <p>You have created <ng-pluralize count="ideasCount"
-          when="{'0': '0 ideas',
-                 'one': '1 idea',
-                 'other': '{} ideas'}">
+      <p>You have created <strong>{{ideasCount}}</strong><ng-pluralize count="ideasCount"
+          when="{'0': ' ideas',
+                 'one': ' idea',
+                 'other': ' ideas'}">
         </ng-pluralize> for this image.</p>
     </div>
     <ion-list>
@@ -27,11 +27,5 @@
         </p>
       </ion-item>
     </ion-list>
-<!--     <ul class="idea-list">
-      <li class="item" ng-repeat="idea in ideas | reverse track by $index">
-        <span class="counter">{{ideas.length - $index}}</span>
-        {{idea}}
-      </li>
-    </ul>
- -->  </ion-content>
+  </ion-content>
 </ion-view>

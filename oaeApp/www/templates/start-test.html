@@ -5,10 +5,10 @@
     </div>
     <div class="test-count">
       <div class="ideas-count balanced">
-        <ng-pluralize count="ideasCount"
-          when="{'0': '0 Ideas',
-                 'one': '1 Idea',
-                 'other': '{} Ideas'}">
+        {{ideasCount}}<ng-pluralize count="ideasCount"
+          when="{'0': ' Ideas',
+                 'one': ' Idea',
+                 'other': ' Ideas'}">
         </ng-pluralize>
       </div>
       <small>Write your idea and <br/>press "Enter" to start the next one.</small>

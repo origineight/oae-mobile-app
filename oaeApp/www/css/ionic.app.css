@@ -7675,9 +7675,11 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.item-body h1:last-child, .item-body h2:last-child, .item-body h3:last-child, .item-body h4:last-child, .item-body h5:last-child, .item-body h6:last-child, .item-body p:last-child {
-  margin-bottom: 16px;
+.item-body h1, .item-body h2, .item-body h3, .item-body h4, .item-body h5, .item-body h6, .item-body p {
   margin-top: 0; }
+  .item-body h1:last-child, .item-body h2:last-child, .item-body h3:last-child, .item-body h4:last-child, .item-body h5:last-child, .item-body h6:last-child, .item-body p:last-child {
+    margin-bottom: 16px;
+    margin-top: 0; }
 
 .item-content span {
   color: #666;
