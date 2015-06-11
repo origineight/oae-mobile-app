@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import url(www/lib/angular-chart.js/dist/angular-chart.css);
 /*
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
@@ -7734,3 +7733,26 @@ label.item.has-error {
 
 .test-image img {
   max-width: 100%; }
+
+/* angular-chart */
+.chart-legend, .bar-legend, .line-legend, .pie-legend, .radar-legend, .polararea-legend, .doughnut-legend {
+  list-style-type: none;
+  margin-top: 5px;
+  text-align: center; }
+  .chart-legend li, .bar-legend li, .line-legend li, .pie-legend li, .radar-legend li, .polararea-legend li, .doughnut-legend li {
+    border-radius: 5px;
+    cursor: default;
+    display: inline-block;
+    font-size: smaller;
+    margin-bottom: 4px;
+    padding: 2px 8px 2px 28px;
+    position: relative;
+    white-space: nowrap; }
+    .chart-legend li span, .bar-legend li span, .line-legend li span, .pie-legend li span, .radar-legend li span, .polararea-legend li span, .doughnut-legend li span {
+      border-radius: 5px;
+      display: block;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 20px; }
