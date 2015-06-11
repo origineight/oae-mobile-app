@@ -229,12 +229,6 @@ angular.module('oaeApp.services', [])
   }
   service.get = function(testId) {
     return tests[testId];
-    // for (var i = 0; i < tests.length; i++) {
-    //   if (tests[i].id === parseInt(testId)) {
-    //     return tests[i];
-    //   }
-    // }
-    // return null;
   }
   service.getCurrentTest = function() {
     return tests[currentTest];
@@ -247,27 +241,6 @@ angular.module('oaeApp.services', [])
     deferred.resolve();
     return deferred.promise;
   }
-  // service.saveIdeas = function(uid, testId, ideas) {
-  //   var deferred = $q.defer();
-  //   var promise = deferred.promise;
-  //   console.log(uid, 'saveIdeas uid');
-  //   console.log(testId, 'saveIdeas testId');
-  //   console.log(ideas, 'saveIdeas ideas');
-
-  //   users.get(uid).then(function (user) {
-  //     console.log(user, 'user loaded')
-  //     newIdeas = user.tests;
-  //     newIdeas.push({
-  //       testId: testId,
-  //       ideas: ideas
-  //     });
-  //     users.update(uid, {tests: newIdeas}).then(function (user) {
-  //       console.log(user, 'ideas saved');
-  //       deferred.resolve();
-  //     });
-  //   })
-  //   return deferred.promise;
-  // }
 
   return service;
 })

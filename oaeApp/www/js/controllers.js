@@ -14,6 +14,12 @@ angular.module('oaeApp.controllers', [])
       var lastUser = LoginFactory.getLastUser();
       console.log(lastUser, 'lastUser');
       $rootScope.user = lastUser;
+      $rootScope.isFirstTest = false;
+
+      // number of tests current user has taken
+      if ($rootScope.user.numTestsTaken == 0) {
+        $rootScope.isFirstTest = true;
+      }
     });
   }
 
@@ -25,11 +31,11 @@ angular.module('oaeApp.controllers', [])
         $state.go('tab.test', { location: 'replace' });
       })
       .error(function(user) {
-        var alertPopup = $ionicPopup.confirm({
+        var confirmPopup = $ionicPopup.confirm({
           title: 'Create new profile?',
           template: 'We don\'t have a profile with "' + $rootScope.user.email + '".<br />Do you want to create new profile?'
         });
-        alertPopup.then(function(res) {
+        confirmPopup.then(function(res) {
           if (res) {
             console.log('Creating user');
             LoginFactory.createUser($rootScope.user.email).success(function(user) {
@@ -60,13 +66,9 @@ angular.module('oaeApp.controllers', [])
 .controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
-  // list of ideas entered by user in a test
-  var ideas = [];
+  init();
 
-  if ($rootScope.isFirstTest === undefined) {
-    init();
-  }
-  else if ($state.current.name == "tab.start-test") {
+  if ($state.current.name == "tab.start-test") {
     console.log('TestCtrl tab.start-test');
     setupTest();
   }
@@ -75,21 +77,14 @@ angular.module('oaeApp.controllers', [])
   }
 
   function init() {
-    console.log('TestCtrl init');
-
-    $rootScope.isFirstTest = false;
-
-    // number of tests current user has taken
-    if ($rootScope.user.numTestsTaken == 0) {
-      $rootScope.isFirstTest = true;
-    }
+    // list of ideas entered by user in a test
+    var ideas = [];
+    var readyText = ['Ready...', 'Ready...Go!'];
+    var readyCount = 0;
+    var readyTimer = null;
   }
 
   // Loading countdown before start test
-  var readyText = ['Ready...', 'Ready...Go!'];
-  var readyCount = 0;
-  var readyTimer = null;
-
   function setReadyTimer() {
     if (readyCount === readyText.length) {
       clearInterval(readyTimer);
@@ -190,7 +185,7 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, ResultsFactory) {
+.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicPopup, $ionicHistory, ResultsFactory, LoginFactory) {
   console.log('ResultsCtrl');
 
   init();
@@ -298,6 +293,27 @@ angular.module('oaeApp.controllers', [])
     return function (a, b) {
       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
     }
+  }
+
+  $scope.resetResults = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Reset all tests?',
+      template: '<i class="icon ion-alert-circled"> This will remove all tests data you have completed so far!<br />Are you sure?'
+    });
+    confirmPopup.then(function(res) {
+      if (res) {
+        console.log('Reset all tests');
+        $rootScope.user.tests = [];
+        $rootScope.user.numTestsTaken = 0;
+        LoginFactory.updateUserTests($rootScope.user).then(function () {
+          $ionicHistory.clearHistory();
+          $state.go('tab.results', { location: 'replace' });
+        });
+      }
+      else {
+        console.log('Cancel, don\'t reset tests');
+      }
+    });
   }
 })
 

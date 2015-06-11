@@ -4,7 +4,7 @@
 
 <ion-view view-title="Results">
   <ion-content>
-    <div class="list card" ng-hide="isFirstTest">
+    <div class="list card">
       <div class="item item-divider"><i class="icon ion-ios-pulse-strong positive"></i> Statistics</div>
       <div class="item item-body">
         <p>You have previously taken this test for <strong>{{user.numTestsTaken}}</strong> <ng-pluralize count="user.numTestsTaken"
@@ -46,7 +46,7 @@
   </ion-content>
 
   <ion-nav-buttons side="right">
-    <a class="button button-dark button-clear ion-android-delete"></a>
+    <a class="button button-dark button-clear ion-android-delete" ng-click="resetResults()"></a>
   </ion-nav-buttons>
 
 </ion-view>
