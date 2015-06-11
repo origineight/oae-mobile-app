@@ -66,7 +66,11 @@ angular.module('oaeApp.controllers', [])
 .controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
-  init();
+  // list of ideas entered by user in a test
+  var ideas = [];
+  var readyText = ['Ready...', 'Ready...Go!'];
+  var readyCount = 0;
+  var readyTimer = null;
 
   if ($state.current.name == "tab.start-test") {
     console.log('TestCtrl tab.start-test');
@@ -74,14 +78,6 @@ angular.module('oaeApp.controllers', [])
   }
   else if ($state.current.name == "tab.end-test") {
     setupEndTest();
-  }
-
-  function init() {
-    // list of ideas entered by user in a test
-    var ideas = [];
-    var readyText = ['Ready...', 'Ready...Go!'];
-    var readyCount = 0;
-    var readyTimer = null;
   }
 
   // Loading countdown before start test
@@ -113,7 +109,7 @@ angular.module('oaeApp.controllers', [])
     $scope.test = null;
     $scope.idea = '';
     $scope.ideasCount = 0;
-    ideas: []
+    ideas = [];
 
     // load a random test
     TestsFactory.draw().then(function() {
@@ -179,6 +175,7 @@ angular.module('oaeApp.controllers', [])
     })
 
     LoginFactory.updateUserTests($rootScope.user).then(function () {
+      ideas = [];
       $ionicHistory.clearHistory();
       $state.go('tab.end-test', { location: 'replace' });
     });
