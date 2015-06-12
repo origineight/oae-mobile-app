@@ -7679,13 +7679,18 @@ a.button {
   float: right;
   margin-left: 10px; }
 
+.superscript {
+  font-size: 80%;
+  vertical-align: super; }
+
 .page-about .logo {
   width: 100px; }
 
 .item-body h1, .item-body h2, .item-body h3, .item-body h4, .item-body h5, .item-body h6, .item-body p {
-  margin-top: 0; }
+  margin-top: 0;
+  margin-bottom: 8px; }
   .item-body h1:last-child, .item-body h2:last-child, .item-body h3:last-child, .item-body h4:last-child, .item-body h5:last-child, .item-body h6:last-child, .item-body p:last-child {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     margin-top: 0; }
 
 .item-content span {
@@ -7739,12 +7744,16 @@ label.item.has-error {
   padding: 0px 6px;
   text-align: center;
   vertical-align: middle; }
+.item .result-percentile {
+  color: #33cd5f; }
 
 .item-result .counter, .item-result .test-date, .item-result .result-count {
+  display: inline-block;
   margin-right: 15px; }
-
-.result-percentile {
-  color: #33cd5f; }
+.item-result .test-date {
+  min-width: 100px; }
+.item-result .result-count {
+  min-width: 70px; }
 
 .test-image img {
   max-width: 100%; }

@@ -182,7 +182,7 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicPopup, $ionicHistory, ResultsFactory, LoginFactory) {
+.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicPopup, $ionicHistory, ResultsFactory, LoginFactory, TestsFactory) {
   console.log('ResultsCtrl');
 
   init();
@@ -312,6 +312,11 @@ angular.module('oaeApp.controllers', [])
       }
     });
   }
+
+  $scope.resultPercentile = function(answers) {
+    return TestsFactory.getPercentile(answers);
+  }
+
 })
 
 .controller('ResultDetailCtrl', function($rootScope, $scope, $stateParams, TestsFactory, ResultsFactory) {
@@ -324,6 +329,7 @@ angular.module('oaeApp.controllers', [])
     console.log(result);
     $scope.result = result;
     $scope.test = TestsFactory.get($scope.result.testId);
+    $scope.percentile = TestsFactory.getPercentile(result.ideas.length);
   });
 })
 

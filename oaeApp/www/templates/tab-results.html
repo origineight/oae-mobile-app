@@ -32,14 +32,14 @@
       </div>
       <ion-item class="item-result item-icon-right item-text-wrap" ng-repeat="result in results | startFrom:currentPage*pageSize | limitTo:pageSize track by result.id" href="#/tab/results/{{result.id}}">
         <span class="counter">#{{result.id}}</span>
-        <span class="test-date">{{result.date | date : 'shortDate'}}</span>
+        <span class="test-date">{{result.date | date : 'mediumDate'}}</span>
         <span class="result-count"><strong>{{result.ideas.length}}</strong><ng-pluralize count="result.ideas.length"
           when="{'0': ' ideas',
                  'one': ' idea',
                  'other': ' ideas'}">
         </ng-pluralize></span>
 
-        <span class="result-percentile">X%</span>
+        <span class="result-percentile">> {{ resultPercentile(result.ideas.length) }}%</span>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>

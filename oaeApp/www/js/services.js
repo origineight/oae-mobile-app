@@ -221,6 +221,65 @@ angular.module('oaeApp.services', [])
     alt: 'Yellow curly thing'
   }];
 
+  var percentile = [{
+    answers: 1,
+    rank: '1',
+  }, {
+    answers: 2,
+    rank: '2',
+  }, {
+    answers: 3,
+    rank: '8',
+  }, {
+    answers: 4,
+    rank: '12',
+  }, {
+    answers: 5,
+    rank: '21',
+  }, {
+    answers: 6,
+    rank: '30',
+  }, {
+    answers: 7,
+    rank: '43',
+  }, {
+    answers: 8,
+    rank: '54',
+  }, {
+    answers: 9,
+    rank: '67',
+  }, {
+    answers: 10,
+    rank: '74',
+  }, {
+    answers: 11,
+    rank: '81',
+  }, {
+    answers: 12,
+    rank: '87',
+  }, {
+    answers: 13,
+    rank: '89',
+  }, {
+    answers: 14,
+    rank: '93',
+  }, {
+    answers: 15,
+    rank: '96',
+  }, {
+    answers: 16,
+    rank: '97',
+  }, {
+    answers: 17,
+    rank: '98',
+  }, {
+    answers: 20,
+    rank: '99',
+  }, {
+    answers: 22,
+    rank: '99+',
+  }];
+
   var currentTest = null;
   var users = $lfmo.define('users');
 
@@ -240,6 +299,13 @@ angular.module('oaeApp.services', [])
     currentTest = random;
     deferred.resolve();
     return deferred.promise;
+  }
+  service.getPercentile = function(answers) {
+    for (var i = percentile.length - 1; i >= 0; i--) {
+      if (percentile[i].answers < parseInt(answers)) {
+        return percentile[i].rank;
+      }
+    };
   }
 
   return service;
