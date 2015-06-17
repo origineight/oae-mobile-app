@@ -59,7 +59,7 @@ angular.module('oaeApp.controllers', [])
   $scope.logout = function() {
     $rootScope.isLoggedIn = false;
     $ionicHistory.clearHistory();
-    $state.go('login', { location: 'replace' });
+    $state.go('logintab.login', { location: 'replace', reload: true, inherit: false, notify: true });
   }
 })
 

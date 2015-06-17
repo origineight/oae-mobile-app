@@ -35,14 +35,51 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  // login state
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
+  // setup an abstract state for the Login tabs directive
+  .state('logintab', {
+    url: "/logintab",
+    abstract: true,
+    templateUrl: "templates/login-tabs.html"
   })
 
-  // setup an abstract state for the tabs directive
+  // Each tab has its own nav history stack:
+  // login state
+  .state('logintab.login', {
+    url: '/login',
+    views: {
+      'logintab-login': {
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+      }
+    }
+  })
+  // about
+  .state('logintab.about', {
+    url: '/about',
+    views: {
+      'logintab-about': {
+        templateUrl: 'templates/tab-about.html'
+      }
+    }
+  })
+  .state('logintab.about-divergent', {
+    url: '/about/divergent',
+    views: {
+      'logintab-about': {
+        templateUrl: 'templates/divergent-thinking.html'
+      }
+    }
+  })
+  .state('logintab.about-tos', {
+    url: '/about/tos',
+    views: {
+      'logintab-about': {
+        templateUrl: 'templates/tos.html'
+      }
+    }
+  })
+
+  // setup an abstract state for the Logged In tabs directive
   .state('tab', {
     url: "/tab",
     abstract: true,
@@ -51,7 +88,6 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
   })
 
   // Each tab has its own nav history stack:
-
   .state('tab.test', {
     url: '/test',
     views: {
@@ -102,12 +138,12 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
     }
   })
 
+  // about with different view
   .state('tab.about', {
     url: '/about',
     views: {
       'tab-about': {
-        templateUrl: 'templates/tab-about.html',
-        // controller: 'AboutCtrl'
+        templateUrl: 'templates/tab-about.html'
       }
     }
   })
@@ -115,8 +151,7 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
     url: '/about/divergent',
     views: {
       'tab-about': {
-        templateUrl: 'templates/divergent-thinking.html',
-        // controller: 'DivergentCtrl'
+        templateUrl: 'templates/divergent-thinking.html'
       }
     }
   })
@@ -124,14 +159,13 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
     url: '/about/tos',
     views: {
       'tab-about': {
-        templateUrl: 'templates/tos.html',
-        // controller: 'TosCtrl'
+        templateUrl: 'templates/tos.html'
       }
     }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/logintab/login');
 
 })
 

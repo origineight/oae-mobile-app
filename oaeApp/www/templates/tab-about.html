@@ -25,12 +25,12 @@
       </div>
     </div>
 
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" href="#/tab/about/divergent">
+    <ion-list ng-init="tabs = isLoggedIn ? 'tab' : 'logintab'">
+      <ion-item class="item-remove-animate item-icon-right" ng-href="#/{{tabs}}/about/divergent">
         Divergent Thinking
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" href="#/tab/about/tos">
+      <ion-item class="item-remove-animate item-icon-right" ng-href="#/{{tabs}}/about/tos">
         Terms of Use
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
