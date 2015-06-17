@@ -39,7 +39,7 @@
                  'other': ' ideas'}">
         </ng-pluralize></span>
 
-        <span class="result-percentile">> {{ resultPercentile(result.ideas.length) }}%</span>
+        <span class="result-percentile" ng-hide="result.ideas.length == 0">> {{ resultPercentile(result.ideas.length) }}%</span>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>

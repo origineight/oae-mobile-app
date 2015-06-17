@@ -16,7 +16,7 @@
                  'one': ' idea',
                  'other': ' ideas'}">
         </ng-pluralize> for <strong>{{test.alt}}</strong>.</p>
-        <p class="rank-percentile">
+        <p class="rank-percentile" ng-hide="result.ideas.length == 0">
           You are ranked above the <strong><span class="result-percentile">{{percentile}}<span class="superscript">th</span></span></strong> percentile.
         </p>
         <div class="test-image full-image">
