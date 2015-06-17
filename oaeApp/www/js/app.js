@@ -7,7 +7,7 @@
 // 'oaeApp.controllers' is found in controllers.js
 angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart.js', 'oaeApp.controllers', 'oaeApp.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicHistory, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +19,21 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
       StatusBar.styleLightContent();
     }
   });
+  // handle android back button
+  $ionicPlatform.registerBackButtonAction(function (event) {
+    console.log($ionicHistory, '$ionicHistory');
+    console.log(event, 'event');
+    console.log($rootScope, 'rootScope');
+    if ($ionicHistory.currentStateName() == 'tab.test' || $ionicHistory.currentStateName() == 'logintab.login' || $ionicHistory.currentStateName() == 'tab.start-test' || $ionicHistory.currentStateName() == 'tab.end-test') {
+      // ionic.Platform.exitApp();
+      // or do nothing
+      event.preventDefault();
+      return false;
+    }
+    else {
+      $ionicHistory.goBack();
+    }
+  }, 100);
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
@@ -46,6 +61,7 @@ angular.module('oaeApp', ['ionic', 'ngMessages', 'angular-lfmo', 'timer', 'chart
   // login state
   .state('logintab.login', {
     url: '/login',
+    cache: false,
     views: {
       'logintab-login': {
         templateUrl: 'templates/login.html',
