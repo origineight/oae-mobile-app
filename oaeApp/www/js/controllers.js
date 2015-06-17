@@ -23,12 +23,43 @@ angular.module('oaeApp.controllers', [])
     });
   }
 
+  // Handle Android hardware back button
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    console.log('stateChangeStart');
+
+    // Prevent test interuption from back button
+    if ($rootScope.testRunning) {
+      event.preventDefault();
+    }
+    // Logged in back logic
+    if ($rootScope.isLoggedIn && toState.name == 'logintab.login') {
+      $ionicHistory.nextViewOptions({
+        disableBack: true,
+        historyRoot: true
+      });
+      $state.go('tab.test');
+    }
+    // Login logic
+    if (!$rootScope.isLoggedIn && toState.name.substring(0, 8) !== 'logintab') {
+      $ionicHistory.nextViewOptions({
+        disableBack: true,
+        historyRoot: true
+      });
+      $state.go('logintab.login');
+    }
+  });
+
   // Login scope
   $scope.login = function() {
     LoginFactory.loginUser($rootScope.user.email)
       .success(function(user) {
         $rootScope.isLoggedIn = true;
-        $state.go('tab.test', { location: 'replace' });
+
+        $ionicHistory.nextViewOptions({
+          disableBack: true,
+          historyRoot: true
+        });
+        $state.go('tab.test');
       })
       .error(function(user) {
         var confirmPopup = $ionicPopup.confirm({
@@ -44,7 +75,12 @@ angular.module('oaeApp.controllers', [])
                   // update user scope
                   $rootScope.user = user;
                   $rootScope.isLoggedIn = true;
-                  $state.go('tab.test', { location: 'replace' });
+
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true,
+                    historyRoot: true
+                  });
+                  $state.go('tab.test');
                 });
             })
           }
@@ -59,11 +95,16 @@ angular.module('oaeApp.controllers', [])
   $scope.logout = function() {
     $rootScope.isLoggedIn = false;
     $ionicHistory.clearHistory();
-    $state.go('logintab.login', { location: 'replace', reload: true, inherit: false, notify: true });
+    $ionicHistory.nextViewOptions({
+      disableBack: true,
+      historyRoot: true
+    });
+
+    $state.go('logintab.login');
   }
 })
 
-.controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, LoginFactory, TestsFactory) {
+.controller('TestCtrl', function($rootScope, $scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, LoginFactory, TestsFactory) {
     console.log($state.current.name, '$state');
 
   // list of ideas entered by user in a test
@@ -139,7 +180,11 @@ angular.module('oaeApp.controllers', [])
   // Do a test
   $scope.doTest = function() {
     console.log('TestCtrl doTest');
-    $state.go('tab.start-test', { location: 'replace', reload: true, inherit: false, notify: true });
+    $ionicHistory.nextViewOptions({
+      disableBack: true,
+      historyRoot: true
+    });
+    $state.go('tab.start-test');
   }
 
   // Save idea input
@@ -177,12 +222,16 @@ angular.module('oaeApp.controllers', [])
     LoginFactory.updateUserTests($rootScope.user).then(function () {
       ideas = [];
       $ionicHistory.clearHistory();
-      $state.go('tab.end-test', { location: 'replace' });
+      $ionicHistory.nextViewOptions({
+        disableBack: true,
+        historyRoot: true
+      });
+      $state.go('tab.end-test');
     });
   }
 })
 
-.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicPopup, $ionicHistory, ResultsFactory, LoginFactory, TestsFactory) {
+.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicHistory, ResultsFactory, LoginFactory, TestsFactory) {
   console.log('ResultsCtrl');
 
   init();
@@ -304,7 +353,11 @@ angular.module('oaeApp.controllers', [])
         $rootScope.user.numTestsTaken = 0;
         LoginFactory.updateUserTests($rootScope.user).then(function () {
           $ionicHistory.clearHistory();
-          $state.go('tab.results', { location: 'replace' });
+          $ionicHistory.nextViewOptions({
+            disableBack: true,
+            historyRoot: true
+          });
+          $state.go('tab.results');
         });
       }
       else {
@@ -331,10 +384,4 @@ angular.module('oaeApp.controllers', [])
     $scope.test = TestsFactory.get($scope.result.testId);
     $scope.percentile = TestsFactory.getPercentile(result.ideas.length);
   });
-})
-
-.controller('AboutCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
 });
