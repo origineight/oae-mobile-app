@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="edu.umn.creativityexercise.oaeapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>oaeApp</name>
+  <name>Originality Development Engine</name>
   <description>
     An UMN project on creativity exercise.
   </description>
@@ -10,6 +10,7 @@
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="phonegap-version" value="cli-5.1.1"/>
+  <preference name="orientation" value="portrait" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -17,6 +18,12 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <!-- iOS Only -->
+  <preference name="target-device" value="universal" />
+  <preference name="exit-on-suspend" value="true" />
+  <!-- Android Only -->
+  <preference name="android-installLocation" value="auto" />
+
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
