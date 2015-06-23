@@ -9,6 +9,10 @@
   </author>
   <content src="index.html"/>
   <access origin="*"/>
+
+  <gap:platform name="ios" />
+  <gap:platform name="android" />
+
   <preference name="phonegap-version" value="cli-5.1.1"/>
   <preference name="orientation" value="portrait" />
   <preference name="webviewbounce" value="false"/>
