@@ -36,7 +36,7 @@
 
   <!-- Phonegap Build versions -->
   <!-- Default icon -->
-  <icon src="resources/ios/icon/icon.png" />
+  <icon src="resources/ios/icon/icon-small@3x.png" />
 
   <icon src="resources/ios/icon/icon.png" width="57" height="57" gap:platform="ios" />
   <icon src="resources/ios/icon/icon@2x.png" width="114" height="114" gap:platform="ios" />
@@ -84,7 +84,7 @@
   <gap:splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" gap:platform="android" gap:density="port-xxxhdpi"/>
 
   <!-- Ionic/Cordova versions -->
-  <platform name="ios">
+<!--   <platform name="ios">
     <icon src="resources/ios/icon/icon.png" width="57" height="57"/>
     <icon src="resources/ios/icon/icon@2x.png" width="114" height="114"/>
     <icon src="resources/ios/icon/icon-40.png" width="40" height="40"/>
@@ -131,5 +131,5 @@
     <splash src="resources/android/splash/drawable-port-xhdpi-screen.png" density="port-xhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
   </platform>
-  <icon src="resources/ios/icon/icon-small@3x.png"/>
+  <icon src="resources/ios/icon/icon-small@3x.png"/> -->
 </widget>
