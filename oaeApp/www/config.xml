@@ -38,7 +38,7 @@
   <!-- Android Only -->
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />
-  <!-- <preference name="splashscreen" value="resources/android/splash/drawable-port-xxxhdpi-screen.png" /> -->
+  <preference name="splashscreen" value="splash.png" />
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
