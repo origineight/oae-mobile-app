@@ -2,7 +2,7 @@
 <widget id="edu.umn.creativityexercise.oaeapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
   <name>Originality Development Engine</name>
   <description>
-    An UMN project on creativity exercise.
+    Original thinking is the generation of ideas that are rare or unique. It is closely tied to fluency, the ability to produce a lot of ideas. The more ideas, the greater chance of an unusual, rare, or original result.
   </description>
   <author email="ck@origineight.net" href="http://origineight.net/">
     OriginEight
@@ -13,26 +13,38 @@
   <gap:platform name="ios" />
   <gap:platform name="android" />
 
-  <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
-
   <preference name="phonegap-version" value="cli-5.1.1"/>
+
+  <!--
+      If you do not want any permissions to be added to your app, add the
+      following tag to your config.xml; you will still have the INTERNET
+      permission on your app, which PhoneGap requires.
+  -->
+  <preference name="permissions" value="none"/>
+
   <preference name="orientation" value="portrait" />
-  <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <!-- iOS Only -->
+  <preference name="webviewbounce" value="false"/>
   <preference name="target-device" value="universal" />
   <preference name="exit-on-suspend" value="true" />
+  <preference name="prerendered-icon" value="true" />
+  <preference name="ios-statusbarstyle" value="black-opaque" />
+  <preference name="show-splash-screen-spinner" value="true" />
   <!-- Android Only -->
+  <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+
+  <!-- Plugins -->
+  <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
 
   <!-- Phonegap Build versions -->
   <!-- Default icon -->
