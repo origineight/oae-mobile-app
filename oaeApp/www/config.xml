@@ -44,7 +44,7 @@
   </feature>
 
   <!-- Plugins -->
-  <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+  <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.3" />
 
   <!-- Phonegap Build versions -->
   <!-- Default icon -->
