@@ -38,13 +38,19 @@
   <!-- Android Only -->
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />
+  <preference name="splashscreen" value="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
 
+  <feature name="SplashScreen">
+    <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    <param name="ios-package" value="CDVSplashScreen" />
+  </feature>
+
   <!-- Plugins -->
-  <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.3" />
+  <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />
 
   <!-- Phonegap Build versions -->
   <!-- Default icon -->
