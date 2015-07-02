@@ -26,19 +26,20 @@
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="BackupWebStorage" value="none"/>
-  <preference name="SplashScreen" value="splash"/>
-  <preference name="SplashScreenDelay" value="3000"/>
   <!-- iOS Only -->
   <preference name="webviewbounce" value="false"/>
   <preference name="target-device" value="universal" />
   <preference name="exit-on-suspend" value="true" />
   <preference name="prerendered-icon" value="true" />
   <preference name="ios-statusbarstyle" value="black-opaque" />
-  <preference name="show-splash-screen-spinner" value="true" />
+  <preference name="auto-hide-splash-screen" value="false" />
+  <preference name="show-splash-screen-spinner" value="false" />
   <!-- Android Only -->
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />
-  <preference name="splashscreen" value="splash.png" />
+  <!-- <preference name="splashscreen" value="splash.png" /> -->
+  <preference name="SplashScreen" value="splash"/>
+  <preference name="SplashScreenDelay" value="3000"/>
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
@@ -49,8 +50,11 @@
     <param name="ios-package" value="CDVSplashScreen" />
   </feature>
 
- -->  <!-- Plugins -->
-  <!-- <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" /> -->
+ -->
+  <!-- Plugins -->
+  <!-- device required so we can detect if we are using iOS -->
+  <gap:plugin name="org.apache.cordova.device" />
+  <gap:plugin name="org.apache.cordova.splashscreen" />
 
   <!-- Phonegap Build versions -->
   <!-- Default icon -->
