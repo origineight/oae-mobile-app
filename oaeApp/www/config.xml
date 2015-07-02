@@ -33,7 +33,9 @@
   <preference name="prerendered-icon" value="true" />
   <preference name="ios-statusbarstyle" value="black-opaque" />
   <preference name="auto-hide-splash-screen" value="false" />
-  <preference name="show-splash-screen-spinner" value="false" />
+  <preference name="FadeSplashScreen" value="true" />
+  <preference name="FadeSplashScreenDuration" value="2" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
   <!-- Android Only -->
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />

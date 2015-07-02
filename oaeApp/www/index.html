@@ -28,18 +28,6 @@
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
-    <script type="text/javascript">
-    // Wait for PhoneGap to load
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-      if (device.platform === "iOS") {
-        // Work-around iOS Quirk
-        setTimeout(function() {
-          navigator.splashscreen.hide();
-        }, 2000);
-      };
-    }
-    </script>
   </head>
   <body ng-app="oaeApp">
     <!--
