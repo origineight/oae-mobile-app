@@ -39,7 +39,7 @@
   <!-- Android Only -->
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="android-installLocation" value="auto" />
-  <preference name="SplashScreenDelay" value="2000"/>
+  <preference name="SplashScreenDelay" value="3000"/>
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
@@ -48,7 +48,6 @@
   <!-- Plugins -->
   <!-- device required so we can detect if we are using iOS -->
   <gap:plugin name="org.apache.cordova.device" />
-  <!-- <gap:plugin name="org.apache.cordova.splashscreen" /> -->
   <gap:plugin name="br.com.paveisitemas.splashscreen" />
 
   <!-- Phonegap Build versions -->
