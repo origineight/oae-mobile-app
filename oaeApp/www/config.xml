@@ -13,7 +13,7 @@
   <gap:platform name="ios" />
   <gap:platform name="android" />
 
-  <preference name="phonegap-version" value="3.5.0"/>
+  <preference name="phonegap-version" value="3.7.0"/>
 
   <!--
       If you do not want any permissions to be added to your app, add the
@@ -39,7 +39,7 @@
   <preference name="android-installLocation" value="auto" />
   <!-- <preference name="splashscreen" value="splash.png" /> -->
   <preference name="SplashScreen" value="splash"/>
-  <preference name="SplashScreenDelay" value="3000"/>
+  <preference name="SplashScreenDelay" value="2000"/>
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
