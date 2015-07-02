@@ -231,7 +231,7 @@ angular.module('oaeApp.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($rootScope, $scope, $filter, $ionicLoading, $ionicHistory, ResultsFactory, LoginFactory, TestsFactory) {
+.controller('ResultsCtrl', function($rootScope, $scope, $state, $filter, $ionicLoading, $ionicHistory, $ionicPopup, ResultsFactory, LoginFactory, TestsFactory) {
   console.log('ResultsCtrl');
 
   init();
@@ -357,7 +357,7 @@ angular.module('oaeApp.controllers', [])
             disableBack: true,
             historyRoot: true
           });
-          $state.go('tab.results');
+          $state.go('tab.test');
         });
       }
       else {
