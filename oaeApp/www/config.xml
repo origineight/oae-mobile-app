@@ -13,7 +13,7 @@
   <gap:platform name="ios" />
   <gap:platform name="android" />
 
-  <preference name="phonegap-version" value="3.7.0"/>
+  <preference name="phonegap-version" value="cli-5.1.1"/>
 
   <!--
       If you do not want any permissions to be added to your app, add the
@@ -45,12 +45,6 @@
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
 
-<!--   <feature name="SplashScreen">
-    <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
-    <param name="ios-package" value="CDVSplashScreen" />
-  </feature>
-
- -->
   <!-- Plugins -->
   <!-- device required so we can detect if we are using iOS -->
   <gap:plugin name="org.apache.cordova.device" />
