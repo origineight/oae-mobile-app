@@ -20,6 +20,16 @@ angular.module('oaeApp.controllers', [])
       if ($rootScope.user.numTestsTaken == 0) {
         $rootScope.isFirstTest = true;
       }
+
+      // observe the number of user tests has taken
+      $rootScope.$watch('user.numTestsTaken', function() {
+        if ($rootScope.user.numTestsTaken == 0) {
+          $rootScope.isFirstTest = true;
+        }
+        else {
+          $rootScope.isFirstTest = false;
+        }
+      });
     });
   }
 
@@ -101,6 +111,26 @@ angular.module('oaeApp.controllers', [])
     });
 
     $state.go('logintab.login');
+  }
+  // Go result scope
+  $scope.goResult = function() {
+    $ionicHistory.clearHistory();
+    $ionicHistory.nextViewOptions({
+      disableBack: true,
+      historyRoot: true
+    });
+    if ($rootScope.isFirstTest) {
+      var alertPopup = $ionicPopup.alert({
+        // title: 'Take some test first!',
+        template: 'Take some test first!'
+      });
+      alertPopup.then(function(res) {
+        $state.go('tab.test');
+      });
+    }
+    else {
+      $state.go('tab.results');
+    }
   }
 })
 
