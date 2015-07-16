@@ -303,7 +303,7 @@ angular.module('oaeApp.services', [])
   service.getPercentile = function(answers) {
     for (var i = percentile.length - 1; i >= 0; i--) {
       if (percentile[i].answers < parseInt(answers)) {
-        return percentile[i].rank;
+        return percentile[i+1].rank;
       }
     };
   }

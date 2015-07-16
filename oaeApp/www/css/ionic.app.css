@@ -7705,10 +7705,8 @@ label.item.has-error {
   color: red;
   padding: 2px 0 2px 16px; }
 
-.new-email {
-  padding: 0 10%; }
-  .new-email .icon {
-    color: #387ef5; }
+.new-email .icon {
+  color: #387ef5; }
 
 .copyright {
   color: #666;
@@ -7764,6 +7762,9 @@ label.item.has-error {
 
 .pagination button:not(:disabled) {
   color: #444; }
+
+.umn-logo {
+  width: 90px; }
 
 /* angular-chart */
 .chart-legend, .bar-legend, .line-legend, .pie-legend, .radar-legend, .polararea-legend, .doughnut-legend {
