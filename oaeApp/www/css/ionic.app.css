@@ -7705,10 +7705,8 @@ label.item.has-error {
   color: red;
   padding: 2px 0 2px 16px; }
 
-.new-email {
-  padding: 0 10%; }
-  .new-email .icon {
-    color: #387ef5; }
+.new-email .icon {
+  color: #387ef5; }
 
 .copyright {
   color: #666;
