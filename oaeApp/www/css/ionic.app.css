@@ -7765,6 +7765,9 @@ label.item.has-error {
 .pagination button:not(:disabled) {
   color: #444; }
 
+.umn-logo {
+  width: 60px; }
+
 /* angular-chart */
 .chart-legend, .bar-legend, .line-legend, .pie-legend, .radar-legend, .polararea-legend, .doughnut-legend {
   list-style-type: none;
