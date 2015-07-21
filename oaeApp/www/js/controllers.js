@@ -346,7 +346,7 @@ angular.module('oaeApp.controllers', [])
     $scope.labels = [];
     $scope.data = [];
 
-    for (var i = 0; i < filteredResults.length; i++) {
+    for (var i = filteredResults.length - 1; i >= 0; i--) {
       $scope.labels.push($filter('date')(filteredResults[i].date, 'shortDate') + ' #' + filteredResults[i].id);
       dataPoints.push(filteredResults[i].ideas.length);
     };
